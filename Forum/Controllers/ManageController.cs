@@ -7,23 +7,34 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Forum.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Forum.Controllers
 {
+
+    using System.Data.Entity;
+    using System.Drawing;
+    using System.IO;
+
+    using Forum.Extensions;
+
     [Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public ManageController()
-        {
-        }
-
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+        }
+
+       
+        public ManageController()
+        {
+            
         }
 
         public ApplicationSignInManager SignInManager
@@ -32,9 +43,9 @@ namespace Forum.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -63,16 +74,93 @@ namespace Forum.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
-            var userId = User.Identity.GetUserId();
+            var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
+            var userId = loggedInUser.Id;
+            var profilePictureSrc = loggedInUser.GetProfileImageSrc();
+
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                User = loggedInUser
             };
+
+            ViewBag.ProfilePictureSrc = profilePictureSrc;
+
             return View(model);
+        }
+
+        //
+        // POST: /Manage/ChangePicture
+        [HttpPost]
+        public async Task<ActionResult> ChangePicture(HttpPostedFileBase picture)
+        {
+            if (picture != null && picture.ContentLength > 0)
+            {
+                var fileExtension = Path.GetExtension(picture.FileName);
+                var allowedExtensions = new string[]
+                                        {
+                                            "jpg",
+                                            "png",
+                                            "jpeg"
+                                        };
+
+                if (!allowedExtensions.Contains(fileExtension))
+                {
+                    ViewBag.ErrorMessage = "File must be picture. Allowed types picture: " + string.Join(", ", allowedExtensions);
+                    return RedirectToAction("Index");
+                }
+
+                var size = picture.InputStream.Length;
+
+                if (size > 1024 * 128)
+                {
+                    ViewBag.ErrorMessage = "Picture too large. Must be no larger than 128kb";
+                    return RedirectToAction("Index");
+                }
+
+                var image = Image.FromStream(picture.InputStream, true);
+
+                if (image.PhysicalDimension.Width > 128 || image.PhysicalDimension.Height > 128)
+                {
+                    ViewBag.ErrorMessage = "Picture must be with max width 128px and max height 128px";
+                }
+
+                var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
+                var username = loggedInUser.UserName;
+                var pictureName = username + '_' + Path.GetFileName(picture.FileName);
+                var savePath = Path.Combine(Server.MapPath("~/UploadedImages/"), pictureName);
+
+                picture.SaveAs(savePath);
+
+                //delete old one
+                if (!string.IsNullOrEmpty(loggedInUser.UploadedProfilePicturePath))
+                {
+                    System.IO.File.Delete(loggedInUser.UploadedProfilePicturePath);
+                }
+
+                //update user info
+                var appContext = ApplicationDbContext.Create();
+                var store = new UserStore<ApplicationUser>(appContext);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = manager.Users.FirstOrDefault(u => u.Id == loggedInUser.Id);
+
+                user.UploadedProfilePicturePath = savePath;
+
+                var result = await manager.UpdateAsync(user);
+
+                if (!result.Succeeded)
+                {
+                    AddErrors(result);
+                }
+
+                store.Context.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
         }
 
         //
@@ -96,7 +184,10 @@ namespace Forum.Controllers
             {
                 message = ManageMessageId.Error;
             }
-            return RedirectToAction("ManageLogins", new { Message = message });
+            return RedirectToAction("ManageLogins", new
+            {
+                Message = message
+            });
         }
 
         //
@@ -127,7 +218,10 @@ namespace Forum.Controllers
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
-            return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
+            return RedirectToAction("VerifyPhoneNumber", new
+            {
+                PhoneNumber = model.Number
+            });
         }
 
         //
@@ -187,7 +281,10 @@ namespace Forum.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
+                return RedirectToAction("Index", new
+                {
+                    Message = ManageMessageId.AddPhoneSuccess
+                });
             }
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError("", "Failed to verify phone");
@@ -203,14 +300,20 @@ namespace Forum.Controllers
             var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
             if (!result.Succeeded)
             {
-                return RedirectToAction("Index", new { Message = ManageMessageId.Error });
+                return RedirectToAction("Index", new
+                {
+                    Message = ManageMessageId.Error
+                });
             }
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
-            return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
+            return RedirectToAction("Index", new
+            {
+                Message = ManageMessageId.RemovePhoneSuccess
+            });
         }
 
         //
@@ -238,7 +341,10 @@ namespace Forum.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                return RedirectToAction("Index", new
+                {
+                    Message = ManageMessageId.ChangePasswordSuccess
+                });
             }
             AddErrors(result);
             return View(model);
@@ -267,7 +373,10 @@ namespace Forum.Controllers
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     }
-                    return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
+                    return RedirectToAction("Index", new
+                    {
+                        Message = ManageMessageId.SetPasswordSuccess
+                    });
                 }
                 AddErrors(result);
             }
@@ -316,10 +425,16 @@ namespace Forum.Controllers
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
             if (loginInfo == null)
             {
-                return RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+                return RedirectToAction("ManageLogins", new
+                {
+                    Message = ManageMessageId.Error
+                });
             }
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
-            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new
+            {
+                Message = ManageMessageId.Error
+            });
         }
 
         protected override void Dispose(bool disposing)
@@ -333,7 +448,7 @@ namespace Forum.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -384,6 +499,6 @@ namespace Forum.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

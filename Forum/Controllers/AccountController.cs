@@ -13,7 +13,7 @@ using Forum.Models;
 namespace Forum.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public partial class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -139,7 +139,8 @@ namespace Forum.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var registerViewModel = new RegisterViewModel();
+            return View(registerViewModel);
         }
 
         //
@@ -151,7 +152,7 @@ namespace Forum.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, DefaultProfilePictureData = model.DefaultProfilePictureData};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

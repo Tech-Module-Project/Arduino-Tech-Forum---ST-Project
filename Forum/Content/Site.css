@@ -22,3 +22,14 @@ select,
 textarea {
     max-width: 280px;
 }
+
+dd {
+    margin-bottom: 20px;
+}
+
+/* Menu profile picture */
+@media (max-width: 768px) {
+  #profilePicture {
+      display: none;
+  }  
+} 

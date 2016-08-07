@@ -1,16 +1,31 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using Forum.Extensions
+@using Forum.Models
+@using Microsoft.AspNet.Identity
+
 @if (Request.IsAuthenticated)
 {
+    var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
+    var pictureSrc = loggedInUser.GetProfileImageSrc();
+
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
     @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+
+            <li>
+                <!-- align me vertically-->
+                <img src="@pictureSrc" height="48" id="profilePicture"/>
+            </li>
+            <li>
+                
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new
+                                                                                                                                     {
+                                                                                                                                         title = "Manage"
+                                                                                                                                     })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
     }
 }
 else

@@ -9,6 +9,8 @@ namespace Forum.Migrations
     using Forum.Models;
     using Forum.Models.Answers;
 
+    using WebGrease.Css.Extensions;
+
     internal sealed class Configuration : DbMigrationsConfiguration<Forum.Models.ApplicationDbContext>
     {
         public Configuration()
@@ -19,7 +21,6 @@ namespace Forum.Migrations
 
         protected override void Seed(Forum.Models.ApplicationDbContext context)
         {
-
             var user1 = new ApplicationUser()
                         {
                             Email = "email@email.bg",
@@ -58,14 +59,15 @@ namespace Forum.Migrations
                        {
                             Name = "how"
                        };
+            var rnd = new Random();
 
             var thread1 = new ForumThread()
                           {
-                              Title = "Kak da prizova demon?",
+                              Title = "Kak da prizova demon?" + rnd.Next(),
                               Body = "Някой знае ли как да призова демон?Някой знае ли как да призова демон?",
                               Category = category1,
                               Author = user1,
-                              ViewCount = 10,
+                              ViewCount = rnd.Next(200),
                               Tags = new List<Tag>()
                                      {
                                          tag1,
@@ -76,11 +78,11 @@ namespace Forum.Migrations
 
             var answer1 = new AnonymousUserAnswer()
                           {
-                              Body = "Брат пии си хапчетата",
+                              Body = "Брат пии си хапчетата" + rnd.Next(),
                               Email = "piisihapchetata@abv.bg",
                               ForumThread = thread1,
-                              NegativePoints = 10,
-                              PositivePoints = 5
+                              NegativePoints = rnd.Next(200),
+                              PositivePoints = rnd.Next(200)
                           };
 
             var answer2 = new RegisteredUserAnswer()
@@ -89,7 +91,7 @@ namespace Forum.Migrations
                                   "1-во купуваш зелени, червени и сини свещи от кауфланд. 2ро превеждаш ми 20$. 3то дочиташ инструкциите който ще ти пратя по скайп",
                               Author = user2,
                               ForumThread = thread1,
-                              NegativePoints = 10
+                              NegativePoints = rnd.Next(200)
                           };
 
             var nestedAnswer1_1 = new AnonymousUserAnswer()
@@ -110,6 +112,7 @@ namespace Forum.Migrations
             thread1.Answers.Add(answer2);
 
             answer1.Replies.Add(nestedAnswer1_1);
+
 
             context.Users.AddOrUpdate(user1, user2);
             context.Categories.AddOrUpdate(category1, category2);
