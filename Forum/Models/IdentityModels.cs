@@ -11,10 +11,7 @@
     using System.IO;
     using System.Linq;
     using System.Web;
-
     using Forum.Models.Answers;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.AspNet.Identity.Owin;
 
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
@@ -24,6 +21,12 @@
         {
             PostedAnswers = new List<IAnswer>();
             PostedThreads = new List<ForumThread>();
+        }
+
+        public int PointCount
+        {
+            get;
+            set;
         }
 
         public List<IAnswer> PostedAnswers
