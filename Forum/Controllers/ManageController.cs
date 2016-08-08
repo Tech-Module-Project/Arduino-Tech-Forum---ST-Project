@@ -7,7 +7,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Forum.Models;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Forum.Controllers
@@ -96,11 +95,12 @@ namespace Forum.Controllers
         //
         // POST: /Manage/ChangePicture
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePicture(HttpPostedFileBase picture)
         {
             if (picture != null && picture.ContentLength > 0)
             {
-                var fileExtension = Path.GetExtension(picture.FileName);
+                var fileExtension = picture.FileName.Split('.').Last();
                 var allowedExtensions = new string[]
                                         {
                                             "jpg",
@@ -110,7 +110,7 @@ namespace Forum.Controllers
 
                 if (!allowedExtensions.Contains(fileExtension))
                 {
-                    ViewBag.ErrorMessage = "File must be picture. Allowed types picture: " + string.Join(", ", allowedExtensions);
+                    TempData.Add("NotificationMessage", "File must be picture. Allowed types picture: " + string.Join(", ", allowedExtensions));
                     return RedirectToAction("Index");
                 }
 
@@ -118,7 +118,7 @@ namespace Forum.Controllers
 
                 if (size > 1024 * 128)
                 {
-                    ViewBag.ErrorMessage = "Picture too large. Must be no larger than 128kb";
+                    TempData.Add("NotificationMessage", "Picture too large. Must be no larger than 128kb");
                     return RedirectToAction("Index");
                 }
 
@@ -126,7 +126,8 @@ namespace Forum.Controllers
 
                 if (image.PhysicalDimension.Width > 128 || image.PhysicalDimension.Height > 128)
                 {
-                    ViewBag.ErrorMessage = "Picture must be with max width 128px and max height 128px";
+                    TempData.Add("NotificationMessage", "Picture must be with max width 128px and max height 128px.");
+                    return RedirectToAction("Index");
                 }
 
                 var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
@@ -158,6 +159,7 @@ namespace Forum.Controllers
                 }
 
                 store.Context.SaveChanges();
+                TempData.Add("NotificationMessage", "Successfully uploaded picture.");
             }
 
             return RedirectToAction("Index");

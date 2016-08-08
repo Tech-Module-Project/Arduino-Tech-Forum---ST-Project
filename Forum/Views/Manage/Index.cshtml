@@ -17,6 +17,7 @@
             <br />
             <a id="changeProfile">Change</a>
             <form action="@Url.Action("ChangePicture")" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
                 <input type="file" id="picture" name="picture" style="display: none;" accept="image/*"/>
                 <input type="submit" id="changeProfilePictureBtn" style="display: none;"/>
             </form>
