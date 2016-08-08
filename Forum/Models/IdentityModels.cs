@@ -66,7 +66,7 @@
 
         public string GetProfileImageSrc()
         {
-            string pictureSrc = "";
+            var pictureSrc = "";
 
             if (!string.IsNullOrEmpty(this.UploadedProfilePicturePath))
             {

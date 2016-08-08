@@ -13,6 +13,7 @@ namespace Forum.Models
         {
             Answers = new List<IAnswer>();
             Tags = new List<Tag>();
+            CreationDate = DateTime.Now;
         }
 
 		[Key]

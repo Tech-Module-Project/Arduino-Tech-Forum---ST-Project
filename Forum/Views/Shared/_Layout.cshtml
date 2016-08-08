@@ -7,6 +7,26 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/notify.js"></script>
+    <script>
+    @if (!TempData.ContainsKey("NotificationType"))
+    {
+        TempData["NotificationType"] = "Default";
+    }
+
+    $.notify('@TempData["NotificationMessage"]', {
+        clickToHide: true,
+        autoHide: true,
+        autoHideDelay: 8000,
+        position: 'top center',
+        className: '@TempData["NotificationType"]'
+    });
+
+    </script>
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -28,8 +48,6 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -43,20 +61,5 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-    <script src="~/Scripts/notify.js"></script>
-    <script>
-
-        $.notify('@TempData["NotificationMessage"]', {
-            clickToHide: true,
-            autoHide: true,
-            autoHideDelay: 8000,
-            position: 'top center',
-            className: 'warn'
-        });
-
-    </script>
 </body>
 </html>

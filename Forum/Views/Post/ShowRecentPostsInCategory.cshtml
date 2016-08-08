@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Forum.Models.ForumThread>
+    
+@foreach (var thread in @Model)
+{
+    <div class="row">
+        <div style="text-align: center">@thread.Title</div>
+        <div class="col-md-2">
+            @if (thread.Author != null)
+            {
+                var authorImageSrc = thread.Author.GetProfileImageSrc();
+                @thread.Author.UserName
+                <img src="@authorImageSrc"/>
+                @:Created On: @thread.CreationDate
+            }
+        </div>
+    </div>
+}

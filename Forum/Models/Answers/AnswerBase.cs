@@ -8,7 +8,8 @@
     {
         protected AnswerBase()
         {
-            Replies = new List<IAnswer>();       
+            Replies = new List<IAnswer>();
+            CreationDate = DateTime.Now;
         }
 
 		[Key]

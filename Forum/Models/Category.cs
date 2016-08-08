@@ -2,6 +2,7 @@ namespace Forum.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Data;
 
     public partial class Category
     {

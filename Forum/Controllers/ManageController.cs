@@ -30,7 +30,6 @@ namespace Forum.Controllers
             SignInManager = signInManager;
         }
 
-       
         public ManageController()
         {
             
@@ -111,6 +110,8 @@ namespace Forum.Controllers
                 if (!allowedExtensions.Contains(fileExtension))
                 {
                     TempData.Add("NotificationMessage", "File must be picture. Allowed types picture: " + string.Join(", ", allowedExtensions));
+                    TempData.Add("NotificationType", "error");
+
                     return RedirectToAction("Index");
                 }
 
@@ -119,6 +120,8 @@ namespace Forum.Controllers
                 if (size > 1024 * 128)
                 {
                     TempData.Add("NotificationMessage", "Picture too large. Must be no larger than 128kb");
+                    TempData.Add("NotificationType", "error");
+
                     return RedirectToAction("Index");
                 }
 
@@ -127,6 +130,8 @@ namespace Forum.Controllers
                 if (image.PhysicalDimension.Width > 128 || image.PhysicalDimension.Height > 128)
                 {
                     TempData.Add("NotificationMessage", "Picture must be with max width 128px and max height 128px.");
+                    TempData.Add("NotificationType", "error");
+
                     return RedirectToAction("Index");
                 }
 
@@ -155,11 +160,19 @@ namespace Forum.Controllers
 
                 if (!result.Succeeded)
                 {
+                    var errors = string.Join(Environment.NewLine, result.Errors);
+
+                    TempData.Add("NotificationMessage", errors);
+                    TempData.Add("NotificationType", "error");
+                    
                     AddErrors(result);
+
+                    return RedirectToAction("Index");
                 }
 
                 store.Context.SaveChanges();
                 TempData.Add("NotificationMessage", "Successfully uploaded picture.");
+                TempData.Add("NotificationType", "success");
             }
 
             return RedirectToAction("Index");
