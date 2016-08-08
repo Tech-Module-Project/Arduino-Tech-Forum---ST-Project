@@ -1,0 +1,54 @@
+﻿@model Forum.Models.IndexViewModel
+@{
+
+    ViewBag.Title = "Manage";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Change your account settings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Profile picture:</dt>
+        <dd>
+            <img src="@ViewBag.ProfilePictureSrc" />
+            <br />
+            <a id="changeProfile">Change</a>
+            <form action="@Url.Action("ChangePicture")" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <input type="file" id="picture" name="picture" style="display: none;" accept="image/*"/>
+                <input type="submit" id="changeProfilePictureBtn" style="display: none;"/>
+            </form>
+        </dd>
+        <dt>Password:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Change your password", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Create", "SetPassword")
+            }
+            ]
+        </dd>
+        <dt>External Logins:</dt>
+        <dd>
+            @Model.Logins.Count [
+            @Html.ActionLink("Manage", "ManageLogins") ]
+        </dd>
+    </dl>
+</div>
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $('#changeProfile').click(function () {
+        $('#picture').trigger('click');
+    });
+
+    $('#picture').change(function () {
+        $('#changeProfilePictureBtn').trigger('click');
+    });
+</script>

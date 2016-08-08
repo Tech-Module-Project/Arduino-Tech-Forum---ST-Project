@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Forum.Models.Category>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <ul class="nav nav-pills" role="tablist">
+            <li class="active"><a href="">All</a></li>
+
+            @foreach (var category in Model)
+            {
+                <li><a href="@category.Id">@category.Name</a></li>
+            }
+
+        </ul>
+        <div id="postContainer"></div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadRecentPostsInCategory();
+
+        $('.nav-pills > li > a').click(function (event) {
+            event.preventDefault();
+
+            var categoryId = $(this).attr('href');
+            loadRecentPostsInCategory(categoryId);
+
+            $('.nav-pills > li').removeClass('active');
+            $(this).parent().addClass('active');
+        });
+    });
+
+
+    function loadRecentPostsInCategory(categoryId) {
+        $('#postContainer').load('/Post/ShowRecentPostsInCategory/' + categoryId);
+    }
+</script>
