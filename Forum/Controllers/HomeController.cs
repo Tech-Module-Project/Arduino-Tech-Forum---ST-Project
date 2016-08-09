@@ -17,6 +17,7 @@ namespace Forum.Controllers
         }
 
         // GET: Users
+        public ActionResult Ranking()
         {
             ViewBag.Message = "Your application description page.";
 
@@ -25,6 +26,7 @@ namespace Forum.Controllers
             ViewBag.Users = users;
 
             return View();
+        }
 
     }
 }
