@@ -52,6 +52,8 @@ namespace Forum.Models
             get; set;
         }
 
+        public DateTime? LastModified { get; set; }
+
         public long ViewCount
         {
             get; set;
@@ -62,13 +64,13 @@ namespace Forum.Models
             get; set;
         }
 
-        public List<IAnswer> Answers
+        public virtual ICollection<IAnswer> Answers
         {
             get;
             set;
         }
 
-        public List<Tag> Tags
+        public virtual ICollection<Tag> Tags
         {
             get;
             set;

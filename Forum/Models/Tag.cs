@@ -17,7 +17,7 @@ namespace Forum.Models
         [StringLength(200)]
         public string Name { get; set; }
 
-        public List<ForumThread> Threads
+        public virtual ICollection<ForumThread> Threads
         {
             get;
             set;

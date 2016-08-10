@@ -46,7 +46,7 @@
             get; set;
         }
 
-        public List<IAnswer> Replies
+        public virtual ICollection<IAnswer> Replies
         {
             get; set;
         }

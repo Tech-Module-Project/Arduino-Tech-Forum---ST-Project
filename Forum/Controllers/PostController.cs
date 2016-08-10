@@ -15,22 +15,23 @@ namespace Forum.Controllers
     {
         const int DefaultMaxThreadsToShowForCategory = 10;
 
+        private ApplicationDbContext db = ApplicationDbContext.Create();
+
         [HttpGet]
         public ActionResult ShowRecentPostsInCategory(int? id)
         {
-            var dbContext = ApplicationDbContext.Create();
             List<ForumThread> posts;
 
             if (id == null)
             {
-                posts = dbContext.Threads
-                    .Include(t => t.Author)               
+                posts = db.Threads
+                    .Include(t => t.Author)
                     .Take(DefaultMaxThreadsToShowForCategory)
                     .ToList();
             }
             else
             {
-                var category = dbContext.Categories.Include(c => c.Threads)
+                var category = db.Categories.Include(c => c.Threads)
                     .Include(c => c.Threads.Select(t => t.Author))
                     .FirstOrDefault(c => c.Id == id);
 
@@ -46,8 +47,23 @@ namespace Forum.Controllers
                     .Take(DefaultMaxThreadsToShowForCategory)
                     .ToList();
             }
-            
+
             return PartialView(posts);
+        }
+
+        public ActionResult Details(int? id)
+        {
+            var thread = this.db.Threads.FirstOrDefault(t => t.Id == id);
+
+            if (thread == null)
+            {
+                TempData["NotificationMessage"] = "Cannot found thread with id " + id;
+                TempData["NotificationType"] = "error";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            return this.View(thread);
         }
     }
 }

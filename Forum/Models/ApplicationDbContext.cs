@@ -15,6 +15,7 @@
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
 
         public static ApplicationDbContext Create()
@@ -45,6 +46,19 @@
                 // Throw a new DbEntityValidationException with the improved exception message.
                 throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
             }
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AnswerBase>()
+                .Map<RegisteredUserAnswer>(
+                    a => a.Requires("Type")
+                             .HasValue("RegisteredUserAnswer"))
+                .Map<AnonymousUserAnswer>(
+                    a => a.Requires("Type")
+                             .HasValue("AnonymousUserAnswer"));
+
+            base.OnModelCreating(modelBuilder);
         }
 
         public virtual DbSet<Category> Categories
