@@ -8,10 +8,10 @@
             @{
                 var answerTypeName = answer.GetType()
                     .Name;
-
+                
                 if (answerTypeName == "RegisteredUserAnswer")
                 {
-                    var registeredUserAnswer = answer as RegisteredUserAnswer;
+                    var registeredUserAnswer = (RegisteredUserAnswer)answer;
                     var authorImageSrc = registeredUserAnswer.Author.GetProfileImageSrc();
                     @registeredUserAnswer.Author.UserName
                     <img src="@authorImageSrc" />
@@ -19,7 +19,7 @@
                 }
                 else if (answerTypeName == "AnonymousUserAnswer")
                 {
-                    var anonymousUserAnswer = answer as AnonymousUserAnswer;
+                    var anonymousUserAnswer = (AnonymousUserAnswer)answer;
                     @anonymousUserAnswer.Email
                 }
                 <br>

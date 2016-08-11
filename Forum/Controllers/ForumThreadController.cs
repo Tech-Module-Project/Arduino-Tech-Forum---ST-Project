@@ -52,6 +52,12 @@ namespace Forum.Controllers
             return PartialView(posts);
         }
 
+        IAnswer ParseAnswer(dynamic answer)
+        {
+
+            return null;
+        }
+
         public ActionResult Details(int? id)
         {
             var thread = this.db.Threads.FirstOrDefault(t => t.Id == id);
@@ -64,9 +70,13 @@ namespace Forum.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var registeredUserAnswers = this.db.RegisteredUsersAnswer.Include(a => a.Replies).Where(a => a.ForumThread.Id == thread.Id)
+            var registeredUserAnswers = this.db.RegisteredUsersAnswer.Include(a => a.Replies)
+                .Include(a => a.Author)
+                .Where(a => a.ForumThread.Id == thread.Id)
                 .ToList();
-            var anonymousUserAnswers = this.db.AnonymousUsersAnswer.Include(a => a.Replies).Where(a => a.ForumThread.Id == thread.Id)
+
+            var anonymousUserAnswers = this.db.AnonymousUsersAnswer.Include(a => a.Replies)
+                .Where(a => a.ForumThread.Id == thread.Id)
                 .ToList();
 
             var allUserAnswers = new List<IAnswer>();
