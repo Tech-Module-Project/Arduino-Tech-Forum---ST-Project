@@ -8,7 +8,7 @@
     {
         protected AnswerBase()
         {
-            Replies = new List<IAnswer>();
+            Replies = new List<AnswerBase>();
             CreationDate = DateTime.Now;
         }
 
@@ -46,7 +46,7 @@
             get; set;
         }
 
-        public virtual ICollection<IAnswer> Replies
+        public virtual ICollection<AnswerBase> Replies
         {
             get; set;
         }

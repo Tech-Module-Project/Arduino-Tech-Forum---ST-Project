@@ -20,7 +20,7 @@
 
         public static ApplicationDbContext Create()
         {
-            var dbcontext = new ApplicationDbContext();            
+            var dbcontext = new ApplicationDbContext();
             return dbcontext;
         }
 
@@ -51,13 +51,24 @@
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AnswerBase>()
+                .HasRequired(a => a.ForumThread);
+
+            modelBuilder.Entity<AnswerBase>()
+                .HasMany(a => a.Replies);
+
+            modelBuilder.Entity<AnswerBase>()
                 .Map<RegisteredUserAnswer>(
                     a => a.Requires("Type")
                              .HasValue("RegisteredUserAnswer"))
                 .Map<AnonymousUserAnswer>(
                     a => a.Requires("Type")
-                             .HasValue("AnonymousUserAnswer"));
+                             .HasValue("AnonymousUserAnswer"))
+                .ToTable("Answers");
 
+            modelBuilder.Entity<ForumThread>()
+                .HasMany(t => t.Answers)
+                .WithRequired(a => a.ForumThread);
+               
             base.OnModelCreating(modelBuilder);
         }
 
