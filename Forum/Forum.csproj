@@ -263,6 +263,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Post\ShowRecentPostsInCategory.cshtml" />
+    <Content Include="Views\Home\Users.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\ForumThreads\Create.cshtml" />
     <Content Include="Views\ForumThreads\Delete.cshtml" />
