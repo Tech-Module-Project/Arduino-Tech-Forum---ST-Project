@@ -194,6 +194,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-Forum-20160806023323.mdf" />
+    <Content Include="App_Data\aspnet-Forum-20160806023323_log.ldf">
+      <DependentUpon>aspnet-Forum-20160806023323.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -259,12 +263,11 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\ForumThread\ShowRecentPostsInCategory.cshtml" />
-    <Content Include="Views\Home\Ranking.cshtml" />
     <Content Include="Views\ForumThread\Details.cshtml" />
     <Content Include="Views\ForumThread\AnswerView.cshtml" />
+    <Content Include="Views\Home\Users.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="UploadedImages\" />
   </ItemGroup>
   <ItemGroup>
