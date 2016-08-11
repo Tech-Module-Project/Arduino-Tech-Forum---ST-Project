@@ -1,0 +1,46 @@
+﻿@using Forum.Extensions
+@using Microsoft.AspNet.Identity.EntityFramework
+@model Forum.Models.ForumThreadDetailsModelView
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h4>@Html.DisplayFor(model => model.Thread.Title)</h4>
+        <hr/>
+        <div class="row">
+            @Html.DisplayFor(model => model.Thread.Body)
+        </div>
+        <div class="row">
+            @Html.DisplayNameFor(model => model.Thread.CreationDate)
+
+            @Html.DisplayFor(model => model.Thread.CreationDate)
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <h4 style="text-align: center">Answers</h4>
+</div>
+<div class="row">
+    <h4></h4>
+</div>
+
+@{
+        if (Model.Answers != null && Model.Answers.Count > 0)
+        {
+            Html.RenderPartial("AnswerView", Model.Answers);
+        }
+}
+
+<p>
+    <div>
+        TODO:
+        @{
+            var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
+            //TODO: ROLES
+        }
+        @Html.ActionLink("Edit", "Edit", new
+{
+    id = Model.Thread.Id
+})
+    </div>
+</p>

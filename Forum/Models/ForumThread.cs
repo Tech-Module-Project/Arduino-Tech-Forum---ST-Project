@@ -11,7 +11,7 @@ namespace Forum.Models
     {
         public ForumThread()
         {
-            Answers = new List<IAnswer>();
+            Answers = new List<AnswerBase>();
             Tags = new List<Tag>();
             CreationDate = DateTime.Now;
         }
@@ -59,12 +59,12 @@ namespace Forum.Models
             get; set;
         }
 
-        public IAnswer BestAnswer
+        public AnswerBase BestAnswer
         {
             get; set;
         }
 
-        public virtual ICollection<IAnswer> Answers
+        public virtual ICollection<AnswerBase> Answers
         {
             get;
             set;

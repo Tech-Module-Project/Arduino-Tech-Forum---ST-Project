@@ -35,7 +35,7 @@
             get; set;
         }
 
-        ICollection<IAnswer> Replies
+        ICollection<AnswerBase> Replies
         {
             get; set;
         }

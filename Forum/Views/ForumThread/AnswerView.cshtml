@@ -1,0 +1,51 @@
+﻿@using Forum.Models.Answers
+@model IEnumerable<Forum.Models.Answers.IAnswer>
+
+@foreach (var answer in Model)
+{
+    <div class="answer">
+        <div>
+            @{
+                var answerTypeName = answer.GetType()
+                    .Name;
+
+                if (answerTypeName == "RegisteredUserAnswer")
+                {
+                    var registeredUserAnswer = answer as RegisteredUserAnswer;
+                    var authorImageSrc = registeredUserAnswer.Author.GetProfileImageSrc();
+                    @registeredUserAnswer.Author.UserName
+                    <img src="@authorImageSrc" />
+
+                }
+                else if (answerTypeName == "AnonymousUserAnswer")
+                {
+                    var anonymousUserAnswer = answer as AnonymousUserAnswer;
+                    @anonymousUserAnswer.Email
+                }
+                <br>
+                @:Created On: @answer.CreationDate
+                <div>
+                    @{
+                        var points = answer.PositivePoints - answer.NegativePoints;
+                    }
+
+                    Points: @points
+                </div>
+                <p>
+                    <div class="answerBody">
+                        @answer.Body
+                    </div>
+                </p>
+            }
+
+        </div>
+        <div class="answerResponses">
+            @{
+                if (answer.Replies != null && answer.Replies.Count > 0)
+                {
+                    Html.RenderPartial("AnswerView", answer.Replies);
+                }
+            }
+        </div>
+    </div>
+}
