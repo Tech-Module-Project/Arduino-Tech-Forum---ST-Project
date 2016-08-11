@@ -16,7 +16,8 @@ namespace Forum.Controllers
             return View(categories);
         }
 
-        // GET: Users
+        // GET: Users with points
+        [OutputCache(Duration = 120, VaryByParam = "none")]
         public ActionResult Users()
         {
             ViewBag.Message = "Your application description page.";
