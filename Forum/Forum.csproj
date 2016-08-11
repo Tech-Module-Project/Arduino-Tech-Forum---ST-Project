@@ -263,6 +263,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Post\ShowRecentPostsInCategory.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Home\Users.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\ForumThreads\Create.cshtml" />
@@ -275,6 +276,11 @@
     <Content Include="Views\Categories\Details.cshtml" />
     <Content Include="Views\Categories\Edit.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
+=======
+    <Content Include="Views\Home\Ranking.cshtml" />
+    <Content Include="Views\Post\Details.cshtml" />
+    <Content Include="Views\Post\AnswerView.cshtml" />
+>>>>>>> origin/master
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

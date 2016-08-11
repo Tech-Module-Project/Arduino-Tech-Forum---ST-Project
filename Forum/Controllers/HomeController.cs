@@ -9,10 +9,10 @@ namespace Forum.Controllers
     public class HomeController : Controller
     {
         protected readonly ApplicationDbContext db = new ApplicationDbContext();
+
         public ActionResult Index()
         {
-            var dbContext = ApplicationDbContext.Create();
-            var categories = dbContext.Categories;
+            var categories = db.Categories;
             return View(categories);
         }
 
