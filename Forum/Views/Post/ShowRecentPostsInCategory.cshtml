@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Forum.Models.ForumThread>
     
-@foreach (var thread in @Model)
+@foreach (var thread in Model)
 {
     <div class="row">
         <div style="text-align: center">@thread.Title</div>
@@ -11,6 +11,10 @@
                 @thread.Author.UserName
                 <img src="@authorImageSrc"/>
                 @:Created On: @thread.CreationDate
+            }
+            else
+            {
+                @thread.Title
             }
         </div>
     </div>

@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Users";
+}
+
+@model List<Forum.Models.ApplicationUser>
+
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+
+<table class="table">
+    <tr>
+        <th>
+            UserName
+        </th>
+        <th>
+            Average Points
+        </th>
+        <th>
+            Total Points
+        </th>
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>
+                @user.UserName
+            </td>
+            <td>
+                @if (user.AveragePoints < 0)
+                {
+                    <span style="color: #e74c3c">@user.AveragePoints</span>
+                }
+                else if (user.AveragePoints > 0)
+                {
+                    <span style="color: #2ecc71">+@user.AveragePoints</span>
+                }
+                else
+                {
+                    @user.AveragePoints
+                }
+            </td>
+            <td>
+                @if (user.TotalPoints < 0)
+                {
+                    <span style="color: #e74c3c">@user.TotalPoints</span>
+                }
+                else if (user.AveragePoints > 0)
+                {
+                    <span style="color: #2ecc71">@user.TotalPoints</span>
+                }
+                else
+                {
+                    @user.AveragePoints
+                }
+            </td>
+        </tr>
+    }
+</table>
