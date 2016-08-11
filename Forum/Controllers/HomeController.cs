@@ -17,15 +17,15 @@ namespace Forum.Controllers
         }
 
         // GET: Users
-        public ActionResult Ranking()
+        public ActionResult Users()
         {
             ViewBag.Message = "Your application description page.";
 
             var users = db.Users.OrderByDescending(u => u.PointCount).ToList();
 
-            ViewBag.Users = users;
+            
 
-            return View();
+            return View(users);
         }
 
     }

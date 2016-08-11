@@ -169,9 +169,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\ForumThreadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Models\ForumThreadDetailsModelView.cs" />
     <Compile Include="Utils\ApplicationUserUtils.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -257,10 +258,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Post\ShowRecentPostsInCategory.cshtml" />
+    <Content Include="Views\ForumThread\ShowRecentPostsInCategory.cshtml" />
     <Content Include="Views\Home\Ranking.cshtml" />
-    <Content Include="Views\Post\Details.cshtml" />
-    <Content Include="Views\Post\AnswerView.cshtml" />
+    <Content Include="Views\ForumThread\Details.cshtml" />
+    <Content Include="Views\ForumThread\AnswerView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
