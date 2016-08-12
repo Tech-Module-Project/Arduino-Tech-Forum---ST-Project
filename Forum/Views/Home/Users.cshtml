@@ -27,7 +27,14 @@
                 @user.UserName
             </td>
             <td>
-                
+                @if (user.QuestionCount <= 0)
+                {
+                    <span>0</span>
+                }
+                else
+                {
+                    @user.Score
+                }
             </td>
             <td>
                 @user.PointCount

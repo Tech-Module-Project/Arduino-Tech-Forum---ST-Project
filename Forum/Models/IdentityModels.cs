@@ -41,7 +41,7 @@
             set;
         }
 
-        //public int Score { get { return PointCount / QuestionCount + BestAnswerCount; } }
+        public int Score { get { return PointCount / QuestionCount + BestAnswerCount; } }
 
         public List<IAnswer> PostedAnswers
         {
