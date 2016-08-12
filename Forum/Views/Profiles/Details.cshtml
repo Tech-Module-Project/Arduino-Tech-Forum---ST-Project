@@ -1,0 +1,16 @@
+﻿@model Forum.Models.ApplicationUser
+
+<h2>Details</h2>
+
+<div class="row">
+    
+        <div class="col-md-3">
+            @Model.UserName
+            <img src="@Model.GetProfileImageSrc()"/>
+        </div>
+        <div class="col-md-8 col-md-offset-1">
+            Score
+        </div>
+    
+    
+</div>

@@ -8,13 +8,14 @@
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
 
-    public static class ApplicationUserUtils
+    public class ApplicationUserUtils
     {
+        private static ApplicationDbContext db = ApplicationDbContext.Create();
         
         public static ApplicationUser GetCurrentlyLoggedInUser()
         {    
             var loggedInUserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
-            var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(loggedInUserId);
+            var user = db.Users.Find(loggedInUserId);
             return user;
         }
     }

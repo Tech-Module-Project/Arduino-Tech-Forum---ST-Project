@@ -23,26 +23,11 @@
             PostedThreads = new List<ForumThread>();
         }
 
-        public int PointCount
+        public int Score
         {
             get;
             set;
         }
-
-        public int PointCountNegative
-        {
-            get;
-            set;
-        }
-
-        public int BestAnswerCount
-        {
-            get;
-            set;
-        }
-        public int TotalPoints { get { return PointCount + PointCountNegative; } }
-
-        public double AveragePoints { get { return (double)TotalPoints / 2; } }
 
         public List<IAnswer> PostedAnswers
         {
@@ -58,12 +43,14 @@
 
         public string DefaultProfilePictureData
         {
-            get; set;
+            get;
+            set;
         }
 
         public string UploadedProfilePicturePath
         {
-            get; set;
+            get;
+            set;
         }
 
         private string ConvertImageToBase64(string path)

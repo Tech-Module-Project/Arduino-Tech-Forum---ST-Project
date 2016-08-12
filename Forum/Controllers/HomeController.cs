@@ -21,10 +21,8 @@ namespace Forum.Controllers
         {
             ViewBag.Message = "Your application description page.";
 
-            var users = db.Users.OrderByDescending(u => u.PointCount).ToList();
-
+            var users = db.Users.OrderByDescending(u => u.Score).ToList();
             
-
             return View(users);
         }
 
