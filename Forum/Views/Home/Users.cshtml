@@ -14,7 +14,7 @@
             UserName
         </th>
         <th>
-            Average Points
+            Score
         </th>
         <th>
             Total Points
@@ -27,32 +27,10 @@
                 @user.UserName
             </td>
             <td>
-                @if (user.AveragePoints < 0)
-                {
-                    <span style="color: #e74c3c">@user.AveragePoints</span>
-                }
-                else if (user.AveragePoints > 0)
-                {
-                    <span style="color: #2ecc71">+@user.AveragePoints</span>
-                }
-                else
-                {
-                    @user.AveragePoints
-                }
+                
             </td>
             <td>
-                @if (user.TotalPoints < 0)
-                {
-                    <span style="color: #e74c3c">@user.TotalPoints</span>
-                }
-                else if (user.TotalPoints > 0)
-                {
-                    <span style="color: #2ecc71">@user.TotalPoints</span>
-                }
-                else
-                {
-                    @user.TotalPoints
-                }
+                @user.PointCount
             </td>
         </tr>
     }

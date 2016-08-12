@@ -29,7 +29,7 @@
             set;
         }
 
-        public int PointCountNegative
+        public int QuestionCount
         {
             get;
             set;
@@ -40,9 +40,8 @@
             get;
             set;
         }
-        public int TotalPoints { get { return PointCount + PointCountNegative; } }
 
-        public double AveragePoints { get { return (double)TotalPoints / 2; } }
+        //public int Score { get { return PointCount / QuestionCount + BestAnswerCount; } }
 
         public List<IAnswer> PostedAnswers
         {

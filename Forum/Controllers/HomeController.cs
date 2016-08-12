@@ -5,7 +5,7 @@ namespace Forum.Controllers
 {
 
     using Forum.Models;
-
+    [RequireHttps]
     public class HomeController : Controller
     {
         protected readonly ApplicationDbContext db = new ApplicationDbContext();
