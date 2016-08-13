@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Forum.Models;
+using reCAPTCHA.MVC;
 
 namespace Forum.Controllers
 {
@@ -148,6 +149,10 @@ namespace Forum.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [CaptchaValidator(
+        PrivateKey = "6LdsYycTAAAAAO9BSgRZPuw6o3MxAWgcJ_vK91nA",
+        ErrorMessage = "Invalid input captcha.",
+        RequiredMessage = "The captcha field is required.")]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)

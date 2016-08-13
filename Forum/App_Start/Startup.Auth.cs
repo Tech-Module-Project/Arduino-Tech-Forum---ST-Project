@@ -54,15 +54,16 @@ namespace Forum
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "625702704262144",
+               appSecret: "b10218e2dcf7e49ef8fe637c44e574df"
+               );
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "623785310820-3njsv6ghg7ujvpup3hp56jeaa8nhvu5o.apps.googleusercontent.com",
+                ClientSecret = "kI0hgovC5tjNPszN_v2J5ivZ"
+            });
         }
     }
 }
