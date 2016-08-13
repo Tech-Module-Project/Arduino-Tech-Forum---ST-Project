@@ -11,7 +11,22 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/notify.js"></script>
+    <script>
+    @if (!TempData.ContainsKey("NotificationType"))
+    {
+        TempData["NotificationType"] = "Default";
+    }
 
+    $.notify('@TempData["NotificationMessage"]', {
+        clickToHide: true,
+        autoHide: true,
+        autoHideDelay: 8000,
+        position: 'top center',
+        className: '@TempData["NotificationType"]'
+    });
+
+    </script>
 
 </head>
 <body>
@@ -49,24 +64,5 @@
             @ApplicationUserUtils.GetCurrentlyLoggedInUser()
         </footer>
     </div>
-
-
-    <script src="~/Scripts/notify.js"></script>
-    <script>
-    @if (!TempData.ContainsKey("NotificationType"))
-    {
-        TempData["NotificationType"] = "Default";
-    }
-
-    $.notify('@TempData["NotificationMessage"]', {
-        clickToHide: true,
-        autoHide: true,
-        autoHideDelay: 8000,
-        position: 'top center',
-        className: '@TempData["NotificationType"]'
-    });
-
-    </script>
-
 </body>
 </html>

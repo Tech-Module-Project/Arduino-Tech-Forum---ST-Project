@@ -52,12 +52,6 @@ namespace Forum.Controllers
             return PartialView(posts);
         }
 
-        IAnswer ParseAnswer(dynamic answer)
-        {
-
-            return null;
-        }
-
         public ActionResult Details(int? id)
         {
             var thread = this.db.Threads.FirstOrDefault(t => t.Id == id);
