@@ -29,6 +29,20 @@
             set;
         }
 
+        public int QuestionCount
+        {
+            get;
+            set;
+        }
+
+        public int BestAnswerCount
+        {
+            get;
+            set;
+        }
+
+        public int Score { get { return (PointCount / QuestionCount) + BestAnswerCount; } }
+
         public List<IAnswer> PostedAnswers
         {
             get;
