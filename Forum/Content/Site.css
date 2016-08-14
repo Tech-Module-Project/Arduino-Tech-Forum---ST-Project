@@ -41,17 +41,34 @@ dd {
 }
 
 /*Admin Pannel*/
-.postsimg, .commentsimg, .categoriesimg, .tagsimg, .usersimg, .filesimg {
-    height: auto;
-    width: 150px;
-    float: center;
-    padding-left: 20px;
+
+.welcome {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: large;
+}
+.postsBox, .commentsBox, .categorieBox, .tagBox, .usersBox, .filesBox {
+    vertical-align: top;
+    display: inline-block;
+    text-align: center;
+    width: 120px;
+    margin-bottom: 20px;
 }
 
-.posts, .comments, .categories, .tags, .users, .files {
+.postsImg, .commentsImg, .categoriesImg, .tagsImg, .usersImg, .filesImg {
+    width: 100px;
+    height: 100px;
+    background-color: grey;
+    margin: 10px;
+    text-align:center;
+    width:100%;
+    display:block;
+    margin:auto;
+}
+
+.posts, .commnets, .categories, .tags, .users, .files {
     border: 1px solid;
     font-weight: bold;
-    float: center;
-    padding: 20px;
-    margin: 5px;
+    display: block;   
 }
