@@ -20,10 +20,15 @@ namespace Forum.Controllers
         [OutputCache(Duration = 120, VaryByParam = "none")]
         public ActionResult Users()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Arduino Tech Forum";
 
           
             
+            return View();
+        }
+
+        public ActionResult Admin()
+        {
             return View();
         }
 

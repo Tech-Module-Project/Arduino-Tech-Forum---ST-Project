@@ -34,6 +34,22 @@ dd {
   }  
 }
 
+/*Anchor Top of Page*/
 .top {
     text-decoration: none;
+    float: right;
+}
+
+/*Admin Pannel*/
+.postsimg .commentsimg .categoriesimg .tagsimg .usersimg .filesimg {
+    height: auto;
+    width: 150px;
+    float: center;
+    padding-left: 20px;
+}
+
+.posts .comments .categories .tags .users .files {
+    font-weight: bold;
+    float: center;
+    padding-left: 20px;
 }

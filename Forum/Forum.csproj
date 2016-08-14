@@ -306,9 +306,11 @@
     <Content Include="Views\Home\Users.cshtml" />
     <Content Include="Views\ForumThread\Edit.cshtml" />
     <Content Include="Views\ForumThread\Index.cshtml" />
+    <Content Include="Views\Home\Admin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="img\" />
     <Folder Include="UploadedImages\" />
   </ItemGroup>
   <ItemGroup>
