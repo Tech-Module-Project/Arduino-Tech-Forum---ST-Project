@@ -1,52 +1,50 @@
-﻿@model Forum.Models.ForumThreadDetailsModelView
-
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        <h4>@Html.DisplayFor(model => model.Thread.Title)</h4>
-        <hr />
-        <div class="row">
-            @Html.DisplayFor(model => model.Thread.Body)
-        </div>
-        <div class="row">
-            @Html.DisplayNameFor(model => model.Thread.CreationDate)
-
-            @Html.DisplayFor(model => model.Thread.CreationDate)
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <input type="button" id="replyButton" value="Reply" />
-
-</div>
-<div class="row">
-    
-        @using (Html.BeginForm("ThreadReply", "ForumThread", FormMethod.Post, new { id = "registeredUserReplyForm" }))
-        {
-            @Html.AntiForgeryToken();
-            <input type="hidden" name="forumThreadId" id="forumThreadId" value="@Model.Thread.Id"/>
-            <input type="hidden" name="previousPageUrl" id="previousPageUrl" value="/ForumThread/Details/@Model.Thread.Id"/>
-            <input type="hidden" name="email" id="email" value=""/>
-
-            @Html.TextBox("answerBody");
-
-            <input type="submit" value="Reply" />
-        }
-
-</div>
-<div class="row">
-    <h4 style="text-align: center">Answers</h4>
-</div>
-
-<hr />
+﻿@model Forum.Models.ForumThread
 
 @{
-    if (Model.Answers != null && Model.Answers.Count > 0)
-    {
-        Html.RenderPartial("AnswerView", Model.Answers);
-    }
+    ViewBag.Title = "Details";
 }
 
-<script>
-    $("#replyButton")
-</script>
+<h2>Details</h2>
+
+<div>
+    <h4>ForumThread</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Body)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Body)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ViewCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ViewCount)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

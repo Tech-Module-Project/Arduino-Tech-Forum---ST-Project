@@ -25,18 +25,6 @@
 
         
 
-        public int QuestionCount
-        {
-            get;
-            set;
-        }
-
-        public int BestAnswerCount
-        {
-            get;
-            set;
-        }
-
        
 
         public List<IAnswer> PostedAnswers

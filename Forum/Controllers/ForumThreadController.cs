@@ -87,7 +87,7 @@ namespace Forum.Controllers
 
 
 
-            return this.View(viewModel);
+            return View(viewModel);
         }
     }
 }

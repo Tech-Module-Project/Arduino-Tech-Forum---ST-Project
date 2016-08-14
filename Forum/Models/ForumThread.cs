@@ -31,6 +31,7 @@ namespace Forum.Models
 
         [Required]
         [StringLength(4000)]
+        [DataType(DataType.MultilineText)]
         public string Body
         {
             get; set;
