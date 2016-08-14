@@ -10,6 +10,7 @@
     <WebStackScaffolding_LayoutPageFile />
     <WebStackScaffolding_DbContextTypeFullName>Forum.Models.ApplicationDbContext</WebStackScaffolding_DbContextTypeFullName>
     <IISExpressSSLPort>44321</IISExpressSSLPort>
+    <WebStackScaffolding_ControllerDialogWidth>600</WebStackScaffolding_ControllerDialogWidth>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

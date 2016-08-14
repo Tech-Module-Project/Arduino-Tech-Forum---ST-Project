@@ -32,4 +32,8 @@ dd {
   #profilePicture {
       display: none;
   }  
-} 
+}
+
+.top {
+    text-decoration: none;
+}
