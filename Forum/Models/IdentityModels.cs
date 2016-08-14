@@ -23,11 +23,7 @@
             PostedThreads = new List<ForumThread>();
         }
 
-        public int Score
-        {
-            get;
-            set;
-        }
+        
 
         public int QuestionCount
         {
@@ -41,7 +37,7 @@
             set;
         }
 
-        public int Score { get { return (PointCount / QuestionCount) + BestAnswerCount; } }
+       
 
         public List<IAnswer> PostedAnswers
         {
