@@ -41,15 +41,17 @@ dd {
 }
 
 /*Admin Pannel*/
-.postsimg .commentsimg .categoriesimg .tagsimg .usersimg .filesimg {
+.postsimg, .commentsimg, .categoriesimg, .tagsimg, .usersimg, .filesimg {
     height: auto;
     width: 150px;
     float: center;
     padding-left: 20px;
 }
 
-.posts .comments .categories .tags .users .files {
+.posts, .comments, .categories, .tags, .users, .files {
+    border: 1px solid;
     font-weight: bold;
     float: center;
-    padding-left: 20px;
+    padding: 20px;
+    margin: 5px;
 }
