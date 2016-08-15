@@ -50,5 +50,10 @@
         {
             get; set;
         }
+
+        public AnswerBase ParentAnswer
+        {
+            get; set;
+        }
     }
 }
