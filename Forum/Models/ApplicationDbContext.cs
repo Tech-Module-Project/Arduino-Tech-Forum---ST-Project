@@ -66,10 +66,17 @@
                              .HasValue("AnonymousUserAnswer"))
                 .ToTable("Answers");
 
+            modelBuilder.Entity<RegisteredUserAnswer>()
+                .HasRequired(a => a.Author);
+
+            modelBuilder.Entity<ForumThread>()
+                .HasRequired(t => t.Author);
+
             modelBuilder.Entity<ForumThread>()
                 .HasMany(t => t.Answers)
-                .WithRequired(a => a.ForumThread);
-               
+                .WithRequired(a => a.ForumThread)
+                .WillCascadeOnDelete(false);
+
             base.OnModelCreating(modelBuilder);
         }
 

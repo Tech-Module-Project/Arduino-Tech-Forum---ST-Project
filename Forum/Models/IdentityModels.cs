@@ -23,10 +23,6 @@
             PostedThreads = new List<ForumThread>();
         }
 
-        
-
-       
-
         public List<IAnswer> PostedAnswers
         {
             get;
