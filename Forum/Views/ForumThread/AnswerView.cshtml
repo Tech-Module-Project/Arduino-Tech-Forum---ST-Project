@@ -36,6 +36,29 @@
                         @answer.Body
                     </div>
                 </p>
+
+            }
+
+            @using (Html.BeginForm("ReplyToAnswer", "Answer", FormMethod.Post, new
+            {
+                id = "replyToAnswerForm"
+            }))
+            {
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" name="forumThreadId" id="forumThreadId" value="@answer.ForumThread.Id"/>
+                <input type="hidden" name="parentAnswerId" id="parentAnswerId" value="@answer.Id"/>
+                <input type="hidden" name="parentAnswerType" id="parentAnswerType" value="@answer.GetType().Name"/>
+                <input type="hidden" name="previousPageUrl" id="previousPageUrl" value="/ForumThread/Details/@answer.ForumThread.Id" />
+
+                if (!User.Identity.IsAuthenticated)
+                {
+                    <input type="email" name="email" id="email" value="" />
+                }
+
+                @Html.TextBox("replyBody")
+
+                <input type="submit" value="Reply" />
             }
 
         </div>
