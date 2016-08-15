@@ -59,7 +59,10 @@ namespace Forum.Controllers
 
         public ActionResult Details(int? id)
         {
-            var thread = this.db.Threads.Include(t => t.Answers.Select(a => a.Replies)).FirstOrDefault(t => t.Id == id);
+            var thread = this.db.Threads.Include(t => t.Author)
+                .Include(t => t.BestAnswer)
+                .Include(t => t.Answers.Select(a => a.Replies))
+                .FirstOrDefault(t => t.Id == id);
 
             if (thread == null)
             {
@@ -68,13 +71,31 @@ namespace Forum.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
+
+            thread.Answers = thread.Answers.Where(a => a.ParentAnswer == null).ToList();
+
+            thread.Answers.ToList().ForEach(
+                a =>
+                    {
+                        var answerTypeName = a.GetType()
+                            .Name;
+
+                        if (answerTypeName.Contains("RegisteredUserAnswer"))
+                        {
+                            var registeredUserAnswer = (RegisteredUserAnswer)a;
+                            var author = this.db.RegisteredUsersAnswer.Include(rua => rua.Author)
+                                .First(rua => rua.Id == a.Id).Author;
+
+                            registeredUserAnswer.Author = author;
+                        }
+                    });
             
             var viewModel = new ForumThreadDetailsModelView()
-                            {
-                                Thread = thread,
-                                Answers = thread.Answers.Select(a => a as IAnswer).ToList()
-                            };
-            
+            {
+                Thread = thread,
+                Answers = thread.Answers.Select(a => a as IAnswer).ToList()
+            };
+
             return View(viewModel);
         }
 
@@ -98,7 +119,7 @@ namespace Forum.Controllers
 
                 TempData["NotificationMessage"] = "Cannot post empty reply";
                 TempData["NotificationType"] = "error";
-                
+
                 return Redirect(redirectUrl);
             }
 
@@ -106,13 +127,13 @@ namespace Forum.Controllers
             {
                 var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
                 var registeredUserReply = new RegisteredUserAnswer()
-                                          {
-                                              Author = loggedInUser,
-                                              Body = replyBody,
-                                              CreationDate = DateTime.Now,
-                                              ForumThread = thread
-                                          };
-                
+                {
+                    Author = loggedInUser,
+                    Body = replyBody,
+                    CreationDate = DateTime.Now,
+                    ForumThread = thread
+                };
+
                 this.db.RegisteredUsersAnswer.Add(registeredUserReply);
                 this.db.Entry(loggedInUser).State = EntityState.Unchanged;
 
@@ -131,12 +152,12 @@ namespace Forum.Controllers
                 }
 
                 var anonymousUserReply = new AnonymousUserAnswer()
-                                         {
-                                             Body = replyBody,
-                                             CreationDate = DateTime.Now,
-                                             Email = email,
-                                             ForumThread = thread
-                                         };
+                {
+                    Body = replyBody,
+                    CreationDate = DateTime.Now,
+                    Email = email,
+                    ForumThread = thread
+                };
 
                 this.db.AnonymousUsersAnswer.Add(anonymousUserReply);
 
