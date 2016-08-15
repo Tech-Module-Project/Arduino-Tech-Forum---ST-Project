@@ -1,0 +1,21 @@
+﻿@model List<Forum.Models.ApplicationUser>
+
+
+
+@using (Ajax.BeginForm("Search", null,
+    new AjaxOptions
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "results",
+        InsertionMode = InsertionMode.Replace
+    }, new {id = "searchForm"}))
+{
+    <input name="query" placeholder="Search" oninput="$('#searchForm').submit()"/>
+    <input type="submit" value="Search"/>
+}
+
+
+<div id="results">
+@Html.Partial("_UsersResult", Model)
+</div>
+
