@@ -243,3 +243,4 @@ paket-files/
 *.sln.iml
 Forum/App_Data/aspnet-Forum-20160806023323_log.ldf
 .vs/config/applicationhost.config
+Forum/App_Data/aspnet-Forum-20160806023323.mdf
