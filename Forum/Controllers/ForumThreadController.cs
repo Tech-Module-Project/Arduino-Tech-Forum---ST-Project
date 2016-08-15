@@ -69,12 +69,14 @@ namespace Forum.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var registeredUserAnswers = this.db.RegisteredUsersAnswer.Include(a => a.Replies)
+            var registeredUserAnswers = this.db.RegisteredUsersAnswer
+                .Include(a => a.Replies)
                 .Include(a => a.Author)
                 .Where(a => a.ForumThread.Id == thread.Id)
                 .ToList();
 
-            var anonymousUserAnswers = this.db.AnonymousUsersAnswer.Include(a => a.Replies)
+            var anonymousUserAnswers = this.db.AnonymousUsersAnswer
+                .Include(a => a.Replies)
                 .Where(a => a.ForumThread.Id == thread.Id)
                 .ToList();
 
@@ -83,21 +85,23 @@ namespace Forum.Controllers
             allUserAnswers.AddRange(registeredUserAnswers);
             allUserAnswers.AddRange(anonymousUserAnswers);
 
+            allUserAnswers.ForEach(a => a.ForumThread = thread);
+            
             var viewModel = new ForumThreadDetailsModelView()
                             {
                                 Thread = thread,
                                 Answers = allUserAnswers.OrderBy(a => a.CreationDate)
                                     .ToList()
                             };
-
-
-
+            
             return View(viewModel);
         }
 
+        [HttpPost]
         public ActionResult ReplyToThread(int? forumThreadId, string replyBody, string email, string previousPageUrl)
         {
             var thread = this.db.Threads.Find(forumThreadId);
+            AnswerBase answer = null;
 
             if (thread == null)
             {
@@ -127,14 +131,11 @@ namespace Forum.Controllers
                                               CreationDate = DateTime.Now,
                                               ForumThread = thread
                                           };
-                var currentThreadAnswers = this.db.Entry(thread)
-                    .Collection(t => t.Answers)
-                    .CurrentValue;
-
-                currentThreadAnswers.Add(registeredUserReply);
-
+                
                 this.db.RegisteredUsersAnswer.Add(registeredUserReply);
                 this.db.Entry(loggedInUser).State = EntityState.Unchanged;
+
+                answer = registeredUserReply;
             }
             else
             {
@@ -157,8 +158,11 @@ namespace Forum.Controllers
                                          };
 
                 this.db.AnonymousUsersAnswer.Add(anonymousUserReply);
-                this.db.Entry(thread).Collection(t => t.Answers).CurrentValue.Add(anonymousUserReply);
+
+                answer = anonymousUserReply;
             }
+
+            thread.Answers.Add(answer);
 
             this.db.SaveChanges();
 

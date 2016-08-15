@@ -186,9 +186,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AnswerController.cs" />
     <Compile Include="Controllers\ForumThreadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="AnswerType.cs" />
     <Compile Include="Models\ForumThreadDetailsModelView.cs" />
     <Compile Include="Utils\ApplicationUserUtils.cs" />
     <Compile Include="Global.asax.cs">
