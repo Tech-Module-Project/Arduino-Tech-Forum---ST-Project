@@ -20,10 +20,8 @@ namespace Forum.Controllers
         [OutputCache(Duration = 120, VaryByParam = "none")]
         public ActionResult Users()
         {
-            ViewBag.Message = "Arduino Tech Forum";
 
-          
-            
+            //TODO: CALCULATE EACH PLAYER SCORE AND RETURN LIST OF PLAYERS SORTED DSC BY SCORE TO THE VIEW
             return View();
         }
 
