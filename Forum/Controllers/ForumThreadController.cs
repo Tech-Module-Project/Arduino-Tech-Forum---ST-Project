@@ -59,7 +59,7 @@ namespace Forum.Controllers
 
         public ActionResult Details(int? id)
         {
-            var thread = this.db.Threads.FirstOrDefault(t => t.Id == id);
+            var thread = this.db.Threads.Include(t => t.Answers.Select(a => a.Replies)).FirstOrDefault(t => t.Id == id);
 
             if (thread == null)
             {
@@ -68,30 +68,11 @@ namespace Forum.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
-
-            var registeredUserAnswers = this.db.RegisteredUsersAnswer
-                .Include(a => a.Replies)
-                .Include(a => a.Author)
-                .Where(a => a.ForumThread.Id == thread.Id)
-                .ToList();
-
-            var anonymousUserAnswers = this.db.AnonymousUsersAnswer
-                .Include(a => a.Replies)
-                .Where(a => a.ForumThread.Id == thread.Id)
-                .ToList();
-
-            var allUserAnswers = new List<IAnswer>();
-
-            allUserAnswers.AddRange(registeredUserAnswers);
-            allUserAnswers.AddRange(anonymousUserAnswers);
-
-            allUserAnswers.ForEach(a => a.ForumThread = thread);
             
             var viewModel = new ForumThreadDetailsModelView()
                             {
                                 Thread = thread,
-                                Answers = allUserAnswers.OrderBy(a => a.CreationDate)
-                                    .ToList()
+                                Answers = thread.Answers.Select(a => a as IAnswer).ToList()
                             };
             
             return View(viewModel);
