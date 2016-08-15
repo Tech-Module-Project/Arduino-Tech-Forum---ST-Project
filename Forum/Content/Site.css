@@ -54,6 +54,7 @@ dd {
     text-align: center;
     width: 120px;
     margin-bottom: 20px;
+    max-width:960px;
 }
 
 .postsImg, .commentsImg, .categoriesImg, .tagsImg, .usersImg, .filesImg {
