@@ -10,12 +10,13 @@
         InsertionMode = InsertionMode.Replace
     }, new {id = "searchForm"}))
 {
-    <input name="query" placeholder="Search" oninput="$('#searchForm').submit()"/>
+    <input type="text" name="query" placeholder="Search" oninput="$('#searchForm').submit()"/>
     <input type="submit" value="Search"/>
 }
 
 
 <div id="results">
 @Html.Partial("_UsersResult", Model)
+
 </div>
 
