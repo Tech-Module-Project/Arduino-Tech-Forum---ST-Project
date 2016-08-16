@@ -9,6 +9,10 @@ namespace Forum.Models
 
     public partial class ForumThread 
     {
+        public const int MinTitleLength = 4;
+
+        public const int MinBodyLength = 10;
+
         public ForumThread()
         {
             Answers = new List<AnswerBase>();
@@ -23,14 +27,14 @@ namespace Forum.Models
         }
 
         [Required]
-        [StringLength(200)]
+        [StringLength(200, MinimumLength = MinTitleLength)]
         public string Title
         {
             get; set;
         }
 
         [Required]
-        [StringLength(4000)]
+        [StringLength(4000, MinimumLength = MinBodyLength)]
         [DataType(DataType.MultilineText)]
         public string Body
         {
