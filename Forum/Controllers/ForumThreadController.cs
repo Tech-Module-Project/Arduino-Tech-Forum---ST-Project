@@ -8,6 +8,7 @@ namespace Forum.Controllers
     using System.Data.Entity;
     using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
 
     using Forum.Extensions;
     using Forum.Models;
@@ -174,11 +175,66 @@ namespace Forum.Controllers
             return Redirect("/ForumThread/Details/" + forumThreadId);
         }
 
-        //Get
+        [HttpGet]
+        [Authorize]
         public ActionResult Create()
         {
+            var allCategories = this.db.Categories;
+            return this.View(allCategories);
+        }
 
-            return null;
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public ActionResult Create(int? categoryId, string title, string body)
+        {
+            if (title.IsNullOrWhiteSpace() || title.Length < ForumThread.MinTitleLength)
+            {
+                TempData["NotificationMessage"] = "Title must be min" + ForumThread.MinTitleLength + " symbols long";
+                TempData["NotificationType"] = "error";
+                return this.View();
+            }
+
+            if (body.IsNullOrWhiteSpace() || body.Length < ForumThread.MinBodyLength)
+            {
+                TempData["NotificationMessage"] = "Body must be min " + ForumThread.MinBodyLength + " symbols long";
+                TempData["NotificationType"] = "error";
+                return this.View();
+            }
+
+            var category = this.db.Categories.Find(categoryId);
+
+            if (category == null)
+            {
+                TempData["NotificationMessage"] = "Invalid category";
+                TempData["NotificationType"] = "error";
+                return View();
+            }
+
+            var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
+            var thread = new ForumThread()
+                         {
+                             Author = loggedInUser,
+                             Body = body,
+                             Title = title,
+                             CreationDate = DateTime.Now,
+                             LastModified = DateTime.Now,
+                             Category = category
+                         };
+
+            this.db.Entry(category).State = EntityState.Unchanged;
+            this.db.Entry(loggedInUser).State = EntityState.Unchanged;
+
+            this.db.Threads.Add(thread);
+            this.db.SaveChanges();
+
+            TempData["NotificationMessage"] = "Successfully created thread";
+            TempData["NotificationType"] = "success";
+
+            var threadId = this.db.Entry(thread)
+                .Entity.Id;
+
+            return Redirect("/ForumThread/Details/" + threadId);
         }
     }
 }
