@@ -63,6 +63,8 @@ namespace Forum.Controllers
             var thread = this.db.Threads.Include(t => t.Author)
                 .Include(t => t.BestAnswer)
                 .Include(t => t.Answers.Select(a => a.Replies))
+                .Include(t => t.Category)
+                .Include(t => t.Tags)
                 .FirstOrDefault(t => t.Id == id);
 
             if (thread == null)
@@ -72,6 +74,13 @@ namespace Forum.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
+
+            thread.ViewCount++;
+
+            this.db.Entry(thread)
+                .Property(t => t.ViewCount)
+                .IsModified = true;
+            this.db.SaveChanges();
 
             thread.Answers.ToList()
                 .ForEach(
@@ -98,6 +107,8 @@ namespace Forum.Controllers
                 Thread = thread,
                 Answers = thread.Answers.Select(a => a as IAnswer).ToList()
             };
+
+  
 
             return View(viewModel);
         }
