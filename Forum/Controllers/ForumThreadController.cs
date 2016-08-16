@@ -72,23 +72,25 @@ namespace Forum.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            thread.Answers = thread.Answers.Where(a => a.ParentAnswer == null).ToList();
-
-            thread.Answers.ToList().ForEach(
-                a =>
-                    {
-                        var answerTypeName = a.GetType()
-                            .Name;
-
-                        if (answerTypeName.Contains("RegisteredUserAnswer"))
+            thread.Answers.ToList()
+                .ForEach(
+                    a =>
                         {
-                            var registeredUserAnswer = (RegisteredUserAnswer)a;
-                            var author = this.db.RegisteredUsersAnswer.Include(rua => rua.Author)
-                                .First(rua => rua.Id == a.Id).Author;
+                            var answerTypeName = a.GetType()
+                                .Name;
 
-                            registeredUserAnswer.Author = author;
-                        }
-                    });
+                            if (answerTypeName.Contains("RegisteredUserAnswer"))
+                            {
+                                var registeredUserAnswer = (RegisteredUserAnswer)a;
+                                var author = this.db.RegisteredUsersAnswer.Include(rua => rua.Author)
+                                    .First(rua => rua.Id == a.Id)
+                                    .Author;
+
+                                registeredUserAnswer.Author = author;
+                            }
+                        });
+
+            thread.Answers = thread.Answers.Where(a => a.ParentAnswer == null).ToList();
             
             var viewModel = new ForumThreadDetailsModelView()
             {
@@ -100,6 +102,7 @@ namespace Forum.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ReplyToThread(int? forumThreadId, string replyBody, string email, string previousPageUrl)
         {
             var thread = this.db.Threads.Find(forumThreadId);
@@ -169,6 +172,13 @@ namespace Forum.Controllers
             this.db.SaveChanges();
 
             return Redirect("/ForumThread/Details/" + forumThreadId);
+        }
+
+        //Get
+        public ActionResult Create()
+        {
+
+            return null;
         }
     }
 }
