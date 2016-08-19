@@ -300,7 +300,9 @@
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Admin\User\Users.cshtml" />
+    <Content Include="Views\Admin\Category\Categories.cshtml" />
+    <Content Include="Views\Admin\Category\_CategoriesResult.cshtml" />
     <None Include="Views\ForumThread\Details.cshtml" />
     <Content Include="Views\ForumThread\AnswerView.cshtml" />
     <Content Include="Views\Categories\Create.cshtml" />
@@ -312,7 +314,7 @@
     <Content Include="Views\Home\Users.cshtml" />
     <Content Include="Views\ForumThread\Edit.cshtml" />
     <Content Include="Views\ForumThread\Index.cshtml" />
-    <Content Include="Views\Admin\_UsersResult.cshtml" />
+    <Content Include="Views\Admin\User\_UsersResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

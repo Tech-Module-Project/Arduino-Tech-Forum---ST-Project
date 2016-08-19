@@ -1,0 +1,15 @@
+﻿@model List<Forum.Models.Category>
+
+@if (Model.Any())
+{
+    foreach (var category in Model)
+    {
+        <h3>@category.Name</h3>
+    }
+}
+else
+{
+  <div>No result</div>
+}
+
+

@@ -2,7 +2,7 @@
 
 
 
-@using (Ajax.BeginForm("Search", null,
+@using (Ajax.BeginForm("SearchUsers", null,
     new AjaxOptions
     {
         HttpMethod = "GET",
@@ -16,7 +16,7 @@
 
 
 <div id="results">
-@Html.Partial("_UsersResult", Model)
+@Html.Partial("~/Views/Admin/User/_UsersResult.cshtml", Model)
 
 </div>
 
