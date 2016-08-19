@@ -1,21 +1,11 @@
-﻿@using Forum.Extensions
-@using Microsoft.AspNet.Identity
-@model List<Forum.Models.ApplicationUser>
+﻿@model List<Forum.Models.ApplicationUser>
 
 @if (Model.Any())
 {
     foreach (var user in Model)
     {
         <h3>@user.UserName</h3>
-
-        if (ApplicationUserUtils.IsAdmin(user.Id))
-        {
-            @Html.ActionLink("Remove from Admin role", "RemoveAdmin", new { id = user.Id })
-        }
-        else
-        {
-            @Html.ActionLink("Promote to Admin role", "AddAdmin", new { id = user.Id })
-        }
+        @Html.ActionLink("Promote to Admin role", "AddAdmin", new {id = user.Id})
     }
 }
 else

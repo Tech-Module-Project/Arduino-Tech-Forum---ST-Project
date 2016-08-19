@@ -16,7 +16,6 @@
         ApplicationDbContext db = new ApplicationDbContext();
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult ReplyToAnswer(int? forumThreadId, int? parentAnswerId, string parentAnswerType, string replyBody, string email, string previousPageUrl)
         {
             var thread = this.db.Threads.Find(forumThreadId);

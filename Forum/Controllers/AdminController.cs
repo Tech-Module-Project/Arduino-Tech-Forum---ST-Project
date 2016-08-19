@@ -11,9 +11,8 @@ namespace Forum.Controllers
 {
     public class AdminController : Controller
     {
-        protected static readonly ApplicationDbContext db = new ApplicationDbContext();
-        protected  UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
-
+        protected readonly ApplicationDbContext db = new ApplicationDbContext();
+        
         public ActionResult Index()
         {
             return View();
@@ -35,14 +34,9 @@ namespace Forum.Controllers
 
         public ActionResult AddAdmin(string id)
         {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
             userManager.AddToRole(id, "Admin");
-
-            return RedirectToAction("Users");
-        }
-
-        public ActionResult RemoveAdmin(string id)
-        {
-            userManager.RemoveFromRole(id, "Admin");
 
             return RedirectToAction("Users");
         }

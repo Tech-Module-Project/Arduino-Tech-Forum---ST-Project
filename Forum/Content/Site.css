@@ -34,14 +34,13 @@ dd {
   }  
 }
 
-/*Anchor Top of Page*/
+/* Anchor Top of Page */
 .top {
     text-decoration: none;
     float: right;
 }
 
-/*Admin Pannel*/
-
+/* Admin Pannel */
 .welcome {
     margin-top: 20px;
     text-align: center;
