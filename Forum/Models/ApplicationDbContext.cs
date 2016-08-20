@@ -1,4 +1,6 @@
-﻿namespace Forum.Models
+﻿using System.Threading;
+
+namespace Forum.Models
 {
 
     using System.Collections.Generic;
@@ -105,6 +107,5 @@
         {
             get; set;
         }
-        
     }
 }

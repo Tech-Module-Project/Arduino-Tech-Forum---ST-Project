@@ -303,13 +303,11 @@
     <Content Include="Views\Admin\User\Users.cshtml" />
     <Content Include="Views\Admin\Category\Categories.cshtml" />
     <Content Include="Views\Admin\Category\_CategoriesResult.cshtml" />
+    <Content Include="Views\Admin\Category\CreateCategory.cshtml" />
+    <Content Include="Views\Admin\Category\EditCategory.cshtml" />
+    <Content Include="Views\Admin\Category\DeleteCategory.cshtml" />
     <None Include="Views\ForumThread\Details.cshtml" />
     <Content Include="Views\ForumThread\AnswerView.cshtml" />
-    <Content Include="Views\Categories\Create.cshtml" />
-    <Content Include="Views\Categories\Delete.cshtml" />
-    <Content Include="Views\Categories\Details.cshtml" />
-    <Content Include="Views\Categories\Edit.cshtml" />
-    <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Profiles\Details.cshtml" />
     <Content Include="Views\Home\Users.cshtml" />
     <Content Include="Views\ForumThread\Edit.cshtml" />
