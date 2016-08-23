@@ -65,6 +65,30 @@ namespace Forum.Controllers
             return RedirectToAction("Users");
         }
 
+        public ActionResult BanUser(string id)
+        {
+            UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+            userManager.AddToRole(id, "Banned");
+
+            TempData["NotificationMessage"] = "User has been successfuly banned";
+            TempData["NotificationType"] = "success";
+
+            return RedirectToAction("Users");
+        }
+
+        public ActionResult UnbanUser(string id)
+        {
+            UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+            userManager.RemoveFromRole(id, "Banned");
+
+            TempData["NotificationMessage"] = "User has been unbanned";
+            TempData["NotificationType"] = "info";
+
+            return RedirectToAction("Users");
+        }
+
         public ActionResult Categories()
         {
             var categories = db.Categories.ToList();
@@ -136,7 +160,15 @@ namespace Forum.Controllers
 
             db.Threads.RemoveRange(category.Threads);
             db.Categories.Remove(category);
+            
+
+            var categoryDetails = db.Threads.Find(id);
+
+            db.Threads.Remove(categoryDetails);
+
             db.SaveChanges();
+
+
 
             return RedirectToAction("Categories");
 

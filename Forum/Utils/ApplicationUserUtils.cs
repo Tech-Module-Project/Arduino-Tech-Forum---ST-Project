@@ -30,5 +30,17 @@ namespace Forum.Extensions
             }
             return false;
         }
+
+        public static bool isBanned(string id)
+        {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+
+            if (userManager.IsInRole(id, "Banned"))
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
