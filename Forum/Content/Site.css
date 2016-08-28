@@ -1,6 +1,7 @@
 ﻿@font-face {
     font-family: ArduinoFont;
     src: url('../fonts/ArduinoFont.ttf') format("truetype");
+    font-weight: bold;
 }
 
 
@@ -164,7 +165,7 @@ dd {
 }
 
 .welcomeHome {
-    margin-top: 20px;
+    margin-top: 25px;
     margin-left: 10px;
     text-align: center;
     font-weight: bold;
