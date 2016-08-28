@@ -1,49 +1,55 @@
 ﻿@model IEnumerable<Forum.Models.Category>
 
-@{
+    @{
     ViewBag.Title = "Home Page";
-}
-
-
-<div class="wrapHome">
-    <p class="welcomeHome">Welcome to the Arduino Tech Forum</p> 
-    <br>
-    <img src="../img/ATCLogo.png" alt="ATCLogo.png" class="logoHome">
-
-<div class="rowHome">
-    <div class="col-md-8 col-md-offset-2">
-        <ul class="nav nav-pills" role="tablist">
-            <li class="active"><a href="">All</a></li>
-
-            @foreach (var category in Model)
-            {
-                <li><a href="@category.Id">@category.Name</a></li>
-            }
-
-        </ul>
-        <div id="postContainer"></div>
-    </div>
-</div>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        loadRecentPostsInCategory();
-
-        $('.nav-pills > li > a').click(function (event) {
-            event.preventDefault();
-
-            var categoryId = $(this).attr('href');
-            loadRecentPostsInCategory(categoryId);
-
-            $('.nav-pills > li').removeClass('active');
-            $(this).parent().addClass('active');
-        });
-    });
-
-
-    function loadRecentPostsInCategory(categoryId) {
-        $('#postContainer').load('/ForumThread/ShowRecentPostsInCategory/' + categoryId);
     }
-</script>
 
-</div>
+
+    <div class="wrapHome">
+        <div class="siteHeader">
+
+            <div class="header-div header-div-logo">
+                <a href="/"> <img src="../img/ATCLogo.png" alt="ATCLogo.png" class="logoHome" /> </a>
+            </div>
+
+            <div class="header-div welcomeHome"><a href="/">Welcome to the Arduino Tech Forum</a></div>
+
+        </div>
+
+        <div class="rowHome">
+            <div class="col-md-8 col-md-offset-2">
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="active"><a href="">All</a></li>
+
+                    @foreach (var category in Model)
+                    {
+                    <li><a href="@category.Id">@category.Name</a></li>
+                    }
+
+                </ul>
+                <div id="postContainer"></div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                loadRecentPostsInCategory();
+
+                $('.nav-pills > li > a').click(function (event) {
+                    event.preventDefault();
+
+                    var categoryId = $(this).attr('href');
+                    loadRecentPostsInCategory(categoryId);
+
+                    $('.nav-pills > li').removeClass('active');
+                    $(this).parent().addClass('active');
+                });
+            });
+
+
+            function loadRecentPostsInCategory(categoryId) {
+                $('#postContainer').load('/ForumThread/ShowRecentPostsInCategory/' + categoryId);
+            }
+        </script>
+
+    </div>
