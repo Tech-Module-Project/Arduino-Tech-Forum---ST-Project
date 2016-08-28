@@ -187,9 +187,40 @@ dd {
    margin-left: 230px;
 }
 
+.rowHome ul {
+    border: 1px solid rgb(230, 230, 255);
+    border-radius: 6px;
+    padding: 3px 5px;
+    background-color: rgb(230, 230, 255);
+}
+
+
 #postContainer  {
     font-weight: bold;
     display: block;
-    padding-top: 50px;
-    margin-left: -50px;
+    padding-top: 40px;
+}
+
+.recent-row {
+    margin-top: 10px;
+}
+
+.recent-row td:first-child {
+    border-left: 1px dotted #337ab7;
+}
+
+.rowHome tr:first-child td{
+    border-top: 1px dotted #337ab7;
+}
+
+.rowHome tr:last-child td{
+    border-bottom: 1px dotted #337ab7;
+    padding-bottom: 5px;
+}
+
+.recent-row td {
+    padding: 5px 10px 5px 10px;
+    border-right: 1px dotted #337ab7;
+    background-color: #e6e6ff;
+    vertical-align: middle;
 }
