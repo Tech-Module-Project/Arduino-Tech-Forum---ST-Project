@@ -23,7 +23,7 @@
                 {
                     var anonymousUserAnswer = (AnonymousUserAnswer)answer;
                     @anonymousUserAnswer.Email
-                    @Html.ActionLink("Delete Answer", "DeleteAnswerNonRegistered", new { id = anonymousUserAnswer.Id})
+                    @Html.ActionLink("Delete Answer", "DeleteAnswer", new { id = anonymousUserAnswer.Id})
                 }
                 <br>
                 @:Created On: @answer.CreationDate
