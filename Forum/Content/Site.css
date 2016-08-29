@@ -231,10 +231,15 @@ dd {
     margin-top: 20px;
     margin-left: 430px;
     margin-bottom: 100px;
+    font-size: 0.9em; 
 }
 
 #searchUsers {
     margin-top: 50px;
     margin-left: 410px;
    
+}
+
+#searchForm {
+    font-size: 1em; 
 }
