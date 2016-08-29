@@ -15,6 +15,7 @@
                     var registeredUserAnswer = (RegisteredUserAnswer) answer;
                     var authorImageSrc = registeredUserAnswer.Author.GetProfileImageSrc();
                     @registeredUserAnswer.Author.UserName
+                    <div>@Html.ActionLink("Delete Answer", "Delete", new  {id = registeredUserAnswer.Id})</div>
                     <img src="@authorImageSrc"/>
 
                 }
@@ -22,6 +23,7 @@
                 {
                     var anonymousUserAnswer = (AnonymousUserAnswer) answer;
                     @anonymousUserAnswer.Email
+                    <div>@Html.ActionLink("Delete Answer", "Delete", new { id = anonymousUserAnswer.Id })</div>
                 }
                 <br>
                 @:Created On: @answer.CreationDate
