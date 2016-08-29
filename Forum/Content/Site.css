@@ -144,7 +144,7 @@ dd {
     position: relative;
     margin: 20px 20px 20px 20px;
     padding: 5px 15px 15px 15px;
-    border: 1px dotted #337ab7;
+    border: 1px solid #337ab7;
     border-radius: 10px;
 }
 
@@ -153,7 +153,7 @@ dd {
     position: relative;
     margin: 20px 20px 20px 20px;
     padding: 15px 15px 10px 15px;
-    border: 1px dotted #337ab7;
+    border: 1px solid #337ab7;
     border-radius: 10px;
 }
 
