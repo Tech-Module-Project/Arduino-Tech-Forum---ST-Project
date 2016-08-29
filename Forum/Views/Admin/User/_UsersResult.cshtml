@@ -16,7 +16,7 @@
             @Html.ActionLink("Promote to Admin role", "AddAdmin", new { id = user.Id })
         }
         <br/>
-        if (ApplicationUserUtils.IsBanned(user.Id))
+        if (ApplicationUserUtils.isBanned(user.Id))
         {
             @Html.ActionLink("Unban user", "UnbanUser", new {id = user.Id})
         }

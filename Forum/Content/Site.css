@@ -224,3 +224,17 @@ dd {
     background-color: #e6e6ff;
     vertical-align: middle;
 }
+
+/* Users Page */
+
+#results {
+    margin-top: 20px;
+    margin-left: 430px;
+    margin-bottom: 100px;
+}
+
+#searchUsers {
+    margin-top: 50px;
+    margin-left: 410px;
+   
+}

@@ -107,10 +107,5 @@ namespace Forum.Models
         {
             get; set;
         }
-
-        public virtual DbSet<AnswerBase> Answer
-        {
-            get; set;
-        }
     }
 }
