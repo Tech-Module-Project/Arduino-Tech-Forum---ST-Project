@@ -164,17 +164,21 @@ dd {
 
 input {
     border: 2px double #337ab7;
+    padding-left: 10px;
 }
 
 input[type=submit] {
     border-radius: 5px;
-    padding: 5px 15px 5px 15px;
+    padding: 5px 15px 5px 15px !important;
 }
+
 
 input[type=submit]:hover {
     background-color: #337ab7;
     color: white;
 }
+
+
 
 /* Home Page */
 
