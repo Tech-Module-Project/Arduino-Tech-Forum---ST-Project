@@ -12,18 +12,16 @@
 
                 if (answerTypeName == "RegisteredUserAnswer")
                 {
-                    var registeredUserAnswer = (RegisteredUserAnswer)answer;
+                    var registeredUserAnswer = (RegisteredUserAnswer) answer;
                     var authorImageSrc = registeredUserAnswer.Author.GetProfileImageSrc();
                     @registeredUserAnswer.Author.UserName
-                    @Html.ActionLink("Delete Answer", "Delete", new { id = registeredUserAnswer.Id })
-                    <img src="@authorImageSrc" />
+                    <img src="@authorImageSrc"/>
 
                 }
                 else if (answerTypeName == "AnonymousUserAnswer")
                 {
-                    var anonymousUserAnswer = (AnonymousUserAnswer)answer;
+                    var anonymousUserAnswer = (AnonymousUserAnswer) answer;
                     @anonymousUserAnswer.Email
-                    @Html.ActionLink("Delete Answer", "Delete", new { id = anonymousUserAnswer.Id })
                 }
                 <br>
                 @:Created On: @answer.CreationDate
@@ -49,19 +47,20 @@
             {
                 @Html.AntiForgeryToken()
 
-                <input type="hidden" name="forumThreadId" id="forumThreadId" value="@answer.ForumThread.Id" />
-                <input type="hidden" name="parentAnswerId" id="parentAnswerId" value="@answer.Id" />
-                <input type="hidden" name="parentAnswerType" id="parentAnswerType" value="@answer.GetType().Name" />
-                <input type="hidden" name="previousPageUrl" id="previousPageUrl" value="/ForumThread/Details/@answer.ForumThread.Id" />
+                <input type="hidden" name="forumThreadId" id="forumThreadId" value="@answer.ForumThread.Id"/>
+                <input type="hidden" name="parentAnswerId" id="parentAnswerId" value="@answer.Id"/>
+                <input type="hidden" name="parentAnswerType" id="parentAnswerType" value="@answer.GetType().Name"/>
+                <input type="hidden" name="previousPageUrl" id="previousPageUrl" value="/ForumThread/Details/@answer.ForumThread.Id"/>
+
 
                 if (!User.Identity.IsAuthenticated)
                 {
-                    <input type="email" name="email" id="email" value="" />
+                    <input placeholder="email4ence ;)" type="email" name="email" id="email" value=""/>
                 }
 
                 @Html.TextBox("replyBody")
 
-                <input type="submit" value="Reply" />
+                <input type="submit" value="Reply"/>
             }
 
         </div>
@@ -74,4 +73,4 @@
             }
         </div>
     </div>
-                }
+}
