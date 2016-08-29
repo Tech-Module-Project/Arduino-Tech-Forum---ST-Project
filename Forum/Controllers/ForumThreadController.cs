@@ -170,5 +170,26 @@ namespace Forum.Controllers
 
             return Redirect("/ForumThread/Details/" + forumThreadId);
         }
+        public ActionResult DeleteAnswer(int? id)
+        {
+            AnswerBase answer = db.Answer.Find(id);
+
+            db.Answer.Remove(answer);
+
+            db.SaveChanges();
+
+            return Redirect(Request.UrlReferrer.PathAndQuery);
+        }
+
+        public ActionResult DeleteAnswerNonRegistered(int? id)
+        {
+            AnswerBase answer = db.Answer.Find(id);
+
+            db.Answer.Remove(answer);
+
+            db.SaveChanges();
+
+            return Redirect(Request.UrlReferrer.PathAndQuery);
+        }
     }
 }

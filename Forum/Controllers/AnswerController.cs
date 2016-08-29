@@ -38,7 +38,7 @@
                 case "RegisteredUserAnswer":
                     parentAnswer = this.db.RegisteredUsersAnswer.Find(parentAnswerId);
                     break;
-                    
+
                 default:
                     TempData["NotificationMessage"] = "Unknown answer type";
                     TempData["NotificationType"] = "error";
@@ -67,24 +67,24 @@
                 var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
 
                 this.db.Entry(loggedInUser).State = EntityState.Unchanged;
-                
+
                 answer = new RegisteredUserAnswer()
-                         {
-                             Author = loggedInUser,
-                             Body = replyBody,
-                             CreationDate = DateTime.Now,
-                             ForumThread = thread
-                         };
+                {
+                    Author = loggedInUser,
+                    Body = replyBody,
+                    CreationDate = DateTime.Now,
+                    ForumThread = thread
+                };
             }
             else
             {
                 answer = new AnonymousUserAnswer()
-                         {
-                             Body = replyBody,
-                             CreationDate = DateTime.Now,
-                             Email = email,
-                             ForumThread = thread
-                         };
+                {
+                    Body = replyBody,
+                    CreationDate = DateTime.Now,
+                    Email = email,
+                    ForumThread = thread
+                };
             }
 
             parentAnswer.Replies.Add(answer);
@@ -93,6 +93,8 @@
 
             return this.Redirect(previousPageUrl);
         }
+
+
     }
 
 }

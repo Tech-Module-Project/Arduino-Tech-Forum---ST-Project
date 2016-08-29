@@ -31,7 +31,7 @@ namespace Forum.Extensions
             return false;
         }
 
-        public static bool isBanned(string id)
+        public static bool IsBanned(string id)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
 
