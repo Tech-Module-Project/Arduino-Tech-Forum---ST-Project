@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Forum.Models.Answers;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Forum.Extensions
@@ -24,8 +26,9 @@ namespace Forum.Extensions
             {
                 var userThreads = db.Threads.Where(x => x.Author.UserName.Equals(user.UserName));
                 var userAnswers = db.RegisteredUsersAnswer.Where(x => x.Author.UserName.Equals(user.UserName));
+                List<IAnswer> userAnswersList = new List<IAnswer>(userAnswers);
                 user.PostedThreads = userThreads.ToList();
-                // user.PostedAnswers = userAnswers.ToList();
+                user.PostedAnswers = userAnswersList;
             }
             return user;
         }

@@ -39,7 +39,7 @@
         <dd>
             @Html.ActionLink($"{Model.User.PostedThreads.Count} {(Model.User.PostedThreads.Count == 1 ? "Thread" : "Threads")}", "ListThreads")
             <span>|</span>
-            @Html.ActionLink($"{Model.User.PostedAnswers.Count} {(Model.User.PostedAnswers.Count == 1 ? "Answer" : "Answers")}", "ListThreads")
+            @Html.ActionLink($"{Model.User.PostedAnswers.Count} {(Model.User.PostedAnswers.Count == 1 ? "Answer" : "Answers")}", "ListAnswers")
         </dd>
         <dt>External Logins:</dt>
         <dd>

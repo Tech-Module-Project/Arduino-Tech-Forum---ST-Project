@@ -473,7 +473,16 @@ namespace Forum.Controllers
                 .ToList();
             return View(threads);
         }
-
+        public ActionResult ListAnswers()
+        {
+            var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
+            var userAnswersWithThreadTitle = db.RegisteredUsersAnswer
+                .Include(a => a.ForumThread)
+                .Where(x => x.Author.UserName.Equals(loggedInUser.UserName))
+                .OrderByDescending(x => x.CreationDate)
+                .ToList();
+            return View(userAnswersWithThreadTitle);
+        }
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
