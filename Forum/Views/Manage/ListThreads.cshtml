@@ -1,0 +1,33 @@
+﻿@using Forum.Models
+@using Microsoft.Ajax.Utilities
+@model IEnumerable<ForumThread>
+
+    <h2>List of your threads</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Answers)
+            </th>
+        </tr>
+        @foreach (var thread in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => thread.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => thread.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => thread.Answers.Count)
+            </td>
+        </tr>
+        }
+    </table>

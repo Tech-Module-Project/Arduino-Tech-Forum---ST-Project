@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using System.Linq;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Forum.Extensions
 {
@@ -17,7 +18,15 @@ namespace Forum.Extensions
         public static ApplicationUser GetCurrentlyLoggedInUser()
         {
             var loggedInUserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            bool isLoggedIn = System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
             var user = db.Users.Find(loggedInUserId);
+            if (isLoggedIn)
+            {
+                var userThreads = db.Threads.Where(x => x.Author.UserName.Equals(user.UserName));
+                var userAnswers = db.RegisteredUsersAnswer.Where(x => x.Author.UserName.Equals(user.UserName));
+                user.PostedThreads = userThreads.ToList();
+                // user.PostedAnswers = userAnswers.ToList();
+            }
             return user;
         }
 
