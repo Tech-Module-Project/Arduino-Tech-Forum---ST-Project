@@ -2,7 +2,9 @@
 {
 
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Linq;
     using System.Web.Mvc;
 
     using Forum.Extensions;
@@ -30,25 +32,13 @@
                 return Redirect(previousPageUrl);
             }
 
-            switch (parentAnswerType)
+            try
             {
-                case "AnonymousUserAnswer":
-                    parentAnswer = this.db.AnonymousUsersAnswer.Find(parentAnswerId);
-                    break;
-                case "RegisteredUserAnswer":
-                    parentAnswer = this.db.RegisteredUsersAnswer.Find(parentAnswerId);
-                    break;
-                    
-                default:
-                    TempData["NotificationMessage"] = "Unknown answer type";
-                    TempData["NotificationType"] = "error";
-
-                    return Redirect(previousPageUrl);
+                parentAnswer = GetAnswer(parentAnswerId, parentAnswerType);
             }
-
-            if (parentAnswer == null)
+            catch (ArgumentException exception)
             {
-                TempData["NotificationMessage"] = "Cannot find answer";
+                TempData["NotificationMessage"] = exception.Message;
                 TempData["NotificationType"] = "error";
 
                 return Redirect(previousPageUrl);
@@ -67,24 +57,24 @@
                 var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
 
                 this.db.Entry(loggedInUser).State = EntityState.Unchanged;
-                
+
                 answer = new RegisteredUserAnswer()
-                         {
-                             Author = loggedInUser,
-                             Body = replyBody,
-                             CreationDate = DateTime.Now,
-                             ForumThread = thread
-                         };
+                {
+                    Author = loggedInUser,
+                    Body = replyBody,
+                    CreationDate = DateTime.Now,
+                    ForumThread = thread
+                };
             }
             else
             {
                 answer = new AnonymousUserAnswer()
-                         {
-                             Body = replyBody,
-                             CreationDate = DateTime.Now,
-                             Email = email,
-                             ForumThread = thread
-                         };
+                {
+                    Body = replyBody,
+                    CreationDate = DateTime.Now,
+                    Email = email,
+                    ForumThread = thread
+                };
             }
 
             parentAnswer.Replies.Add(answer);
@@ -92,6 +82,94 @@
             this.db.SaveChanges();
 
             return this.Redirect(previousPageUrl);
+        }
+
+        AnswerBase GetAnswer(int? answerId, string answerType)
+        {
+            AnswerBase answer = null;
+
+            if (string.IsNullOrWhiteSpace(answerType))
+            {
+                throw new ArgumentException("Invalid answer type");
+            }
+
+            if (answerType.Contains("AnonymousUserAnswer"))
+            {
+                answer = this.db.AnonymousUsersAnswer
+                    .Include(a => a.ForumThread)
+                    .Include(a => a.ParentAnswer)
+                    .FirstOrDefault(a => a.Id == answerId);
+            }
+            else if (answerType.Contains("RegisteredUserAnswer"))
+            {
+                answer = this.db.RegisteredUsersAnswer.Include(a => a.Author)
+                    .Include(a => a.ForumThread)
+                    .Include(a => a.ParentAnswer)
+                    .FirstOrDefault(a => a.Id == answerId);
+            }
+
+            if (answer == null)
+            {
+                throw new ArgumentException("Cant found answer with " + answerId + " id of " + answerType + " answer type");
+            }
+
+            return answer;
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult UpVoteAnswer(int? answerId, string answerType)
+        {
+            var answer = GetAnswer(answerId, answerType);
+            var positivePoints = answer.PositivePoints + 1;
+
+            ChangeAnswerPoints(answer, positivePoints, answer.NegativePoints);
+
+            var points = new
+            {
+                points = positivePoints - answer.NegativePoints
+            };
+
+            return Json(points, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult DownVoteAnswer(int? answerId, string answerType)
+        {
+            var answer = GetAnswer(answerId, answerType);
+            var negativePoints = answer.NegativePoints + 1;
+
+            ChangeAnswerPoints(answer, answer.PositivePoints, answer.NegativePoints + 1);
+
+            var points = new
+            {
+                points = answer.PositivePoints - negativePoints
+            };
+
+            return Json(points, JsonRequestBehavior.AllowGet);
+        }
+
+        void ChangeAnswerPoints(AnswerBase answer, int newPositivePoints, int newNegativePoints)
+        {
+            answer.PositivePoints = newPositivePoints;
+            answer.NegativePoints = newNegativePoints;
+
+            if (answer.GetType().Name.Contains("RegisteredUserAnswer"))
+            {
+                var registeredUserAnswer = (RegisteredUserAnswer)answer;
+                this.db.Entry(registeredUserAnswer.Author)
+                    .State = EntityState.Unchanged;
+            }
+
+            this.db.Entry(answer.ForumThread).State = EntityState.Unchanged;
+
+            if (answer.ParentAnswer != null)
+            {
+                this.db.Entry(answer.ParentAnswer).State = EntityState.Unchanged;
+            }
+            
+            this.db.SaveChanges();
         }
     }
 

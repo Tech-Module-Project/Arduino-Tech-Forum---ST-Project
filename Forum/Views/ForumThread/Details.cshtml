@@ -22,7 +22,7 @@
     {
         @Html.AntiForgeryToken()
 
-        <input type="hidden" name="forumThreadId" id="forumThreadId" value="@Model.Thread.Id"/>
+        <input type="hidden" name="forumThreadId" id="forumThreadId" value="@Model.Thread.Id" />
         <input type="hidden" name="previousPageUrl" id="previousPageUrl" value="/ForumThread/Details/@Model.Thread.Id" />
 
         if (!User.Identity.IsAuthenticated)
@@ -48,3 +48,45 @@
         Html.RenderPartial("AnswerView", Model.Answers);
     }
 }
+
+<script type="text/javascript">
+    $('.upvote-answer').click(function() {
+        var answer = $(this).parent();
+        updateAnswerPoints(answer, "upvote");
+    });
+
+    $('.downvote-answer').click(function() {
+        var answer = $(this).parent();
+        updateAnswerPoints(answer, "downvote");
+    });
+
+    function updateAnswerPoints(answer, voteType) {
+        var url;
+
+        if (voteType.toLowerCase() === 'upvote') {
+            url = '/Answer/UpVoteAnswer';
+        } else if (voteType.toLowerCase() === 'downvote') {
+            url = '/Answer/DownVoteAnswer';
+        } else {
+            throw new window.Exception('Invalid vote type');
+        }
+
+        var answerId = answer.find('#answerId').val(),
+            answerType = answer.find('#answerType').val();
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+            data: {
+                answerId: answerId,
+                answerType: answerType
+            },
+            success: function (points) {
+                answer.find('.answer-points').text(points.points);
+            }
+        });
+    }
+
+</script>

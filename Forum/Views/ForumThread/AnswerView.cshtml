@@ -30,8 +30,13 @@
                         var points = answer.PositivePoints - answer.NegativePoints;
                     }
 
-                    Points: @points
+                    Points: <span class="answer-points">@points</span>
                 </div>
+
+
+                <a class="upvote-answer">UpVote</a>
+                <a class="downvote-answer">DownVote</a>
+
                 <p>
                     <div class="answerBody">
                         @answer.Body
@@ -39,6 +44,9 @@
                 </p>
 
             }
+
+            <input type="hidden" name="answerId" id="answerId" value="@answer.Id" />
+            <input type="hidden" name="answerType" id="answerType" value="@answer.GetType().Name"/>
 
             @using (Html.BeginForm("ReplyToAnswer", "Answer", FormMethod.Post, new
             {
