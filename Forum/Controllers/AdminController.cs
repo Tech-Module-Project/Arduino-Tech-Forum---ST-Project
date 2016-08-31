@@ -156,24 +156,38 @@ namespace Forum.Controllers
         public ActionResult DeleteCategory(int? id)
         {
             Category category = db.Categories.Find(id);
-
-
-            db.Threads.RemoveRange(category.Threads);
-            db.Categories.Remove(category);
             
-
-            var categoryDetails = db.Threads.Find(id);
-
-            db.Threads.Remove(categoryDetails);
+            db.Threads.RemoveRange(category.Threads);
+            
+            db.Categories.Remove(category);
 
             db.SaveChanges();
-
-
-
             return RedirectToAction("Categories");
 
         }
 
+        public ActionResult DeleteUser()
+        {
+            return View("~/Views/Admin/User/DeleteUser.cshtml");
+        }
+
+        [HttpPost]
+        public ActionResult DeleteUser(string id)
+        {
+            var user = db.Users.Find(id);
+
+            db.Threads.RemoveRange(user.PostedThreads);
+
+            var userAnswers = db.RegisteredUsersAnswer.Where(a => a.Author_Id == id);
+
+            db.Answer.RemoveRange(userAnswers);
+
+            db.Users.Remove(user);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Users");
+        }
 
     }
 }

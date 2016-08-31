@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace Forum.Controllers
 {
@@ -22,6 +23,25 @@ namespace Forum.Controllers
         const int DefaultMaxThreadsToShowForCategory = 10;
 
         private ApplicationDbContext db = ApplicationDbContext.Create();
+
+        [Authorize]
+        public ActionResult Create()
+        {
+            ViewBag.Categories = db.Categories.ToList();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create([Bind(Include = "Title,Body,Category_Id")]ForumThread forumThread)
+        {
+            forumThread.Author_Id = User.Identity.GetUserId();
+
+            db.Threads.Add(forumThread);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Details");
+        }
 
         [HttpGet]
         public ActionResult ShowRecentPostsInCategory(int? id)

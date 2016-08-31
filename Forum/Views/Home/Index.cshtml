@@ -7,16 +7,20 @@
 
 
 <div class="wrapHome">
-        <div class="siteHeader">
+    <div class="siteHeader">
 
-            <div class="header-div header-div-logo">
-                <a href="/"> <img src="../img/ATCLogo.png" alt="ATCLogo.png" class="logoHome" /> </a>
-            </div>
-
-            <div class="header-div welcomeHome"><a href="/">Welcome to the Arduino Tech Forum</a></div>
-
+        <div class="header-div header-div-logo">
+            <a href="/"> <img src="../img/ATCLogo.png" alt="ATCLogo.png" class="logoHome"/> </a>
         </div>
 
+        <div class="header-div welcomeHome"><a href="/">Welcome to the Arduino Tech Forum</a>
+        </div>
+
+    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div>@Html.ActionLink("Create new thread", "Create", "ForumThread")</div>
+    }    
         <div class="rowHome">
             <div class="col-md-8 col-md-offset-1">
                 <ul class="nav nav-pills" role="tablist">

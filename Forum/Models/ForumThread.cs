@@ -39,12 +39,17 @@ namespace Forum.Models
             get; set;
         }
 
+        public string Author_Id { get; set; }
+
+        [ForeignKey("Author_Id")]
         public ApplicationUser Author
         {
             get; set;
         }
 
-        [Required]
+        public int Category_Id { get; set; }
+
+        [ForeignKey("Category_Id")]
         public Category Category
         {
             get; set;

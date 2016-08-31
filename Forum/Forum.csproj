@@ -306,6 +306,7 @@
     <Content Include="Views\Admin\Category\CreateCategory.cshtml" />
     <Content Include="Views\Admin\Category\EditCategory.cshtml" />
     <Content Include="Views\Admin\Category\DeleteCategory.cshtml" />
+    <Content Include="Views\Admin\User\DeleteUser.cshtml" />
     <None Include="Views\ForumThread\Details.cshtml" />
     <Content Include="Views\ForumThread\AnswerView.cshtml" />
     <Content Include="Views\Profiles\Details.cshtml" />

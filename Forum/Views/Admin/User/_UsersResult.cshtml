@@ -24,6 +24,8 @@
         {
             @Html.ActionLink("Ban user", "BanUser", new { id = user.Id })
         }
+        <br/>
+        @Html.ActionLink("Delete user", "DeleteUser", new { id = user.Id })
     }
 }
 else
