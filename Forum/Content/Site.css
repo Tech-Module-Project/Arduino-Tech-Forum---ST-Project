@@ -278,3 +278,11 @@ input[type=submit]:hover {
 #searchForm {
     font-size: 1em; 
 }
+
+/* Categories Page */
+
+#searchCategories {
+    margin-top: 50px;
+    margin-left: 410px;
+   
+}
