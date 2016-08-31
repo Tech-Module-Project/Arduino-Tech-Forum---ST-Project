@@ -2,32 +2,53 @@
 @using Microsoft.Ajax.Utilities
 @model IEnumerable<ForumThread>
 
-    <h2>List of your threads</h2>
+<h2>List of your threads</h2>
 
-    <table class="table">
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title):
+        </th>
+        <th>
+            Published On:
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Answers):
+        </th>
+    </tr>
+    @foreach (var thread in Model)
+    {
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Answers)
-            </th>
+            <td>
+                @if (thread.Title != null)
+                {
+                    @Html.DisplayFor(modelItem => thread.Title)
+                }
+                else
+                {
+                    @:-----
+                }
+            </td>
+            <td>
+                @if (thread.CreationDate != null)
+                {
+                    @Html.DisplayFor(modelItem => thread.CreationDate)
+                }
+                else
+                {
+                    @:-----
+                }
+            </td>
+            <td>
+                @if (thread.Title != null)
+                {
+                    @Html.DisplayFor(modelItem => thread.Answers.Count)
+                }
+                else
+                {
+                    @:-----
+                }
+            </td>
         </tr>
-        @foreach (var thread in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => thread.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => thread.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => thread.Answers.Count)
-            </td>
-        </tr>
-        }
-    </table>
+    }
+</table>
