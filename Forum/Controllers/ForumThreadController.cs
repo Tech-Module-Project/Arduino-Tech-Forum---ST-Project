@@ -89,7 +89,7 @@ namespace Forum.Controllers
                             registeredUserAnswer.Author = author;
                         }
                     });
-            
+
             var viewModel = new ForumThreadDetailsModelView()
             {
                 Thread = thread,
@@ -169,6 +169,15 @@ namespace Forum.Controllers
             this.db.SaveChanges();
 
             return Redirect("/ForumThread/Details/" + forumThreadId);
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            AnswerBase answer = db.Answer.Find(id);
+
+            db.Answer.Remove(answer);
+            db.SaveChanges();
+            return Redirect(Request.UrlReferrer.PathAndQuery);
         }
     }
 }

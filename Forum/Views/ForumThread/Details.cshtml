@@ -1,13 +1,13 @@
 ﻿@model Forum.Models.ForumThreadDetailsModelView
 
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
+<div class="authorpost">
+    <div>
         <h4>@Html.DisplayFor(model => model.Thread.Title)</h4>
         <hr />
-        <div class="row">
+        <div>
             @Html.DisplayFor(model => model.Thread.Body)
         </div>
-        <div class="row">
+        <div>
             @Html.DisplayNameFor(model => model.Thread.CreationDate)
             @Html.DisplayFor(model => model.Thread.CreationDate)
         </div>
@@ -15,6 +15,10 @@
 </div>
 
 <div class="row">
+    <h4 style="text-align: center">Answers</h4>
+</div>
+
+<div class="reply-div">
     @using (Html.BeginForm("ReplyToThread", "ForumThread", FormMethod.Post, new
     {
         id = "userReplyForm"
@@ -22,25 +26,24 @@
     {
         @Html.AntiForgeryToken()
 
+        <hr />
+
         <input type="hidden" name="forumThreadId" id="forumThreadId" value="@Model.Thread.Id"/>
         <input type="hidden" name="previousPageUrl" id="previousPageUrl" value="/ForumThread/Details/@Model.Thread.Id" />
 
         if (!User.Identity.IsAuthenticated)
         {
-            <input type="email" name="email" id="email" value="" />
+            <input placeholder="email4ence ;)" type="email" name="email" id="email" value="" />
         }
 
         @Html.TextBox("replyBody")
 
-        <input type="submit" value="Reply" />
+        <input type="submit" value="Reply"/>
+
+       
     }
 </div>
 
-<div class="row">
-    <h4 style="text-align: center">Answers</h4>
-</div>
-
-<hr />
 
 @{
     if (Model.Answers != null && Model.Answers.Count > 0)
@@ -48,3 +51,5 @@
         Html.RenderPartial("AnswerView", Model.Answers);
     }
 }
+
+

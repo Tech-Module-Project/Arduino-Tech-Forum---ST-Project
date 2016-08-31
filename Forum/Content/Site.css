@@ -137,13 +137,48 @@ dd {
     margin: 0 auto;
 }
 
-/* Debug */
-.answer {
-    border: 1px solid tomato;
+/* Answers View Css */
+
+.authorpost {
+    background-color: #e6e6ff;
     position: relative;
     margin: 20px 20px 20px 20px;
-    padding: 5px 5px 5px 5px;
+    padding: 5px 15px 15px 15px;
+    border: 1px solid #337ab7;
+    border-radius: 10px;
 }
+
+.answer {
+    background-color: #e6e6ff;
+    position: relative;
+    margin: 20px 20px 20px 20px;
+    padding: 15px 15px 10px 15px;
+    border: 1px solid #337ab7;
+    border-radius: 10px;
+}
+
+.reply-div {
+    width: 95%;
+    margin: auto;
+}
+
+input {
+    border: 2px double #337ab7;
+    padding-left: 10px;
+}
+
+input[type=submit] {
+    border-radius: 5px;
+    padding: 5px 15px 5px 15px !important;
+}
+
+
+input[type=submit]:hover {
+    background-color: #337ab7;
+    color: white;
+}
+
+
 
 /* Home Page */
 
