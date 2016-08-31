@@ -5,24 +5,26 @@
 <p class="welcome">Welcome to the Admin Pannel</p>
 
 <div class="wrap">
-<div class="postsBox">
-    <img src="../img/posts.png" alt="Posts" class="postsImg">
-    <div class="posts">Posts</div>
-</div>
+    <div class="postsBox">
+        <a href="@Url.Action("Threads", "Admin")">
+            <img src="../img/posts.png" alt="Posts" class="postsImg">
+            <div class="posts">Posts</div>
+        </a>
+    </div>
 
-<div class="categoriesBox">
-    <a href="@Url.Action("Categories", "Admin")">
-        <img src="../img/categories.png" alt="Categories" class="categoriesImg">
-    </a>
+    <div class="categoriesBox">
+        <a href="@Url.Action("Categories", "Admin")">
+            <img src="../img/categories.png" alt="Categories" class="categoriesImg">
+        </a>
         <div class="categories">Categories</div>
-</div>
+    </div>
 
-<div class="usersBox">
-    <a href="@Url.Action("Users", "Admin")">
-        <img src="../img/users.png" alt="Users" class="usersImg">
-    </a>
+    <div class="usersBox">
+        <a href="@Url.Action("Users", "Admin")">
+            <img src="../img/users.png" alt="Users" class="usersImg">
+        </a>
         <div class="users">Users</div>
-</div>
+    </div>
 
 </div>
 <br>

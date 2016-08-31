@@ -1,0 +1,20 @@
+﻿@model List<Forum.Models.ForumThread>
+
+
+
+@using (Ajax.BeginForm("SearchThreads", null,
+                            new AjaxOptions()
+                            {
+                                HttpMethod = "GET",
+                                UpdateTargetId = "results",
+                                InsertionMode = InsertionMode.Replace
+                            }, new { id = "searchForm" }))
+{
+    <input type="text" name="query" placeholder="Search" id="searchCategories" oninput="$('#searchForm').submit()" />
+    <input type="submit" value="Search" />
+}
+
+
+<div id="results">
+    @Html.Partial("~/Views/Admin/Thread/_ThreadsResult.cshtml", Model)
+</div>

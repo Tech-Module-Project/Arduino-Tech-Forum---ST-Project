@@ -14,13 +14,14 @@ namespace Forum.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private  ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ActionResult Index()
         {
             return View();
         }
 
+        // USERS 
         public ActionResult Users()
         {
             var users = db.Users.ToList();
@@ -36,14 +37,28 @@ namespace Forum.Controllers
 
         }
 
-        public ActionResult SearchCategories(string query)
+        public ActionResult DeleteUser()
         {
-
-            var resultCategory = db.Categories.Where(c => c.Name.ToLower().Contains(query.ToLower())).ToList();
-
-            return PartialView("~/Views/Admin/Category/_CategoriesResult.cshtml", resultCategory);
+            return View("~/Views/Admin/User/DeleteUser.cshtml");
         }
 
+        [HttpPost]
+        public ActionResult DeleteUser(string id)
+        {
+            var user = db.Users.Find(id);
+
+            db.Threads.RemoveRange(user.PostedThreads);
+
+            var userAnswers = db.RegisteredUsersAnswer.Where(a => a.Author_Id == id);
+
+            db.Answer.RemoveRange(userAnswers);
+
+            db.Users.Remove(user);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Users");
+        }
         public ActionResult AddAdmin(string id)
         {
             UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
@@ -89,6 +104,17 @@ namespace Forum.Controllers
 
             return RedirectToAction("Users");
         }
+
+        // CATEGORIES
+        public ActionResult SearchCategories(string query)
+        {
+
+            var resultCategory = db.Categories.Where(c => c.Name.ToLower().Contains(query.ToLower())).ToList();
+
+            return PartialView("~/Views/Admin/Category/_CategoriesResult.cshtml", resultCategory);
+        }
+
+
 
         public ActionResult Categories()
         {
@@ -157,38 +183,75 @@ namespace Forum.Controllers
         public ActionResult DeleteCategory(int? id)
         {
             Category category = db.Categories.Find(id);
-            
+
             db.Threads.RemoveRange(category.Threads);
-            
+
             db.Categories.Remove(category);
 
             db.SaveChanges();
             return RedirectToAction("Categories");
-
         }
 
-        public ActionResult DeleteUser()
+        // THREADS
+
+        public ActionResult Threads()
         {
-            return View("~/Views/Admin/User/DeleteUser.cshtml");
+            var threads = db.Threads.ToList();
+
+            return View("~/Views/Admin/Thread/Threads.cshtml", threads);
+        }
+
+        public ActionResult EditThread(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var forumThread = db.Threads.Find(id);
+            if (forumThread == null)
+            {
+                return HttpNotFound();
+            }
+            return View("~/Views/Admin/Thread/EditThread.cshtml", forumThread);
         }
 
         [HttpPost]
-        public ActionResult DeleteUser(string id)
+        public ActionResult EditThread([Bind (Include = "Id,Title,Body,Author_Id,Category_Id")] ForumThread forumThread)
         {
-            var user = db.Users.Find(id);
+            if (ModelState.IsValid)
+            {
+                db.Entry(forumThread).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Threads");
+            }
+            return View("~/Views/Admin/Thread/EditThread.cshtml", forumThread);
+        }
 
-            db.Threads.RemoveRange(user.PostedThreads);
+        public ActionResult DeleteThread()
+        {
+            return View("~/Views/Admin/Thread/DeleteThread.cshtml");
+        }
 
-            var userAnswers = db.RegisteredUsersAnswer.Where(a => a.Author_Id == id);
+        [HttpPost]
+        public ActionResult DeleteThread(int? id)
+        {
+            var forumThread = db.Threads.Find(id);
 
-            db.Answer.RemoveRange(userAnswers);
+            db.Answer.RemoveRange(forumThread.Answers);
 
-            db.Users.Remove(user);
+            db.Threads.Remove(forumThread);
 
             db.SaveChanges();
 
-            return RedirectToAction("Users");
+            return RedirectToAction("Threads");
         }
 
+        public ActionResult SearchThreads(string query)
+        {
+
+            var resultThread = db.Threads.Where(t => t.Title.ToLower().Contains(query.ToLower()) || t.Body.ToLower().Contains(query.ToLower())).ToList();
+
+            return PartialView("~/Views/Admin/Thread/_ThreadsResult.cshtml", resultThread);
+        }
     }
 }

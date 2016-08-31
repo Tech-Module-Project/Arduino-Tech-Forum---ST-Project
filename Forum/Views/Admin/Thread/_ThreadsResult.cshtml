@@ -1,0 +1,17 @@
+﻿@model List<Forum.Models.ForumThread>
+
+@if (Model.Any())
+{
+    foreach (var thread in Model)
+    {
+        <h3>@thread.Title</h3>
+        @Html.ActionLink("Edit", "EditThread", new { id = thread.Id })<br />
+        @Html.ActionLink("Delete", "DeleteThread", new { id = thread.Id })
+    }
+}
+else
+{
+    <div>No result</div>
+}
+
+
