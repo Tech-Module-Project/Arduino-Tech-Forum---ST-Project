@@ -314,6 +314,8 @@
     <Content Include="Views\ForumThread\Edit.cshtml" />
     <Content Include="Views\ForumThread\Index.cshtml" />
     <Content Include="Views\Admin\User\_UsersResult.cshtml" />
+    <Content Include="Views\Manage\ListThreads.cshtml" />
+    <Content Include="Views\Manage\ListAnswers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

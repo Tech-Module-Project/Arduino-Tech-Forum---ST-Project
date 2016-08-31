@@ -23,6 +23,7 @@ namespace Forum.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
@@ -32,7 +33,7 @@ namespace Forum.Controllers
 
         public ManageController()
         {
-            
+
         }
 
         public ApplicationSignInManager SignInManager
@@ -164,7 +165,7 @@ namespace Forum.Controllers
 
                     TempData.Add("NotificationMessage", errors);
                     TempData.Add("NotificationType", "error");
-                    
+
                     AddErrors(result);
 
                     return RedirectToAction("Index");
@@ -463,6 +464,25 @@ namespace Forum.Controllers
             base.Dispose(disposing);
         }
 
+        public ActionResult ListThreads()
+        {
+            var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
+            var threads = db.Threads
+                .Where(x => x.Author.UserName.Equals(loggedInUser.UserName))
+                .OrderByDescending(x => x.CreationDate)
+                .ToList();
+            return View(threads);
+        }
+        public ActionResult ListAnswers()
+        {
+            var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
+            var userAnswersWithThreadTitle = db.RegisteredUsersAnswer
+                .Include(a => a.ForumThread)
+                .Where(x => x.Author.UserName.Equals(loggedInUser.UserName))
+                .OrderByDescending(x => x.CreationDate)
+                .ToList();
+            return View(userAnswersWithThreadTitle);
+        }
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
