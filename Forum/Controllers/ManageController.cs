@@ -468,6 +468,7 @@ namespace Forum.Controllers
         {
             var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
             var threads = db.Threads
+                .Include(t => t.Answers)
                 .Where(x => x.Author.UserName.Equals(loggedInUser.UserName))
                 .OrderByDescending(x => x.CreationDate)
                 .ToList();

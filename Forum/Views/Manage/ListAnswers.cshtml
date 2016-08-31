@@ -3,46 +3,51 @@
 @using Microsoft.Ajax.Utilities
 @model IEnumerable<RegisteredUserAnswer>
 
-<h2>List of your answers:</h2>
+<h2>List of your answers</h2>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ForumThread.Title)
+            @Html.DisplayNameFor(model => model.ForumThread.Title):
         </th>
         <th>
-            Date Created
+            Published On:
         </th>
         <th>
-            Points
+            Points:
         </th>
         <th>
-            Replies
+            Replies:
         </th>
     </tr>
     @foreach (var answer in Model)
     {
-        string date = string.Empty;
-        if (answer.CreationDate != null)
-        {
-            date = ((DateTime)(answer.CreationDate)).ToString("MM/dd/yyyy");
-        }
-        else
-        {
-            date = "-----";
-        }
         int points = answer.PositivePoints - answer.NegativePoints;
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => answer.ForumThread.Title)
+                @if (answer.ForumThread != null)
+                {
+                    @Html.DisplayFor(modelItem => answer.ForumThread.Title)
+                }
+                else
+                {
+                    @:-----
+                }
             </td>
             <td>
-                @date
+                @if (answer.CreationDate != null)
+                {
+                    @Html.DisplayFor(modelItem => answer.CreationDate)
+                }
+                else
+                {
+                    @:-----
+                }
             </td>
             <td>
                 @points
             </td>
-            
+
             <td>
                 @Html.DisplayFor(modelItem => answer.Replies.Count)
             </td>
