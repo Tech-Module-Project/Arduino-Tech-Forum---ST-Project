@@ -16,16 +16,13 @@
         <th>
             Points:
         </th>
-        <th>
-            Replies:
-        </th>
     </tr>
     @foreach (var answer in Model)
     {
         int points = answer.PositivePoints - answer.NegativePoints;
         <tr>
             <td>
-                @if (answer.ForumThread != null)
+                @if (answer.ForumThread.Title != null)
                 {
                     @Html.DisplayFor(modelItem => answer.ForumThread.Title)
                 }
@@ -46,10 +43,6 @@
             </td>
             <td>
                 @points
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => answer.Replies.Count)
             </td>
         </tr>
     }

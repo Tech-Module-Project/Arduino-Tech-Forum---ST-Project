@@ -467,12 +467,12 @@ namespace Forum.Controllers
         public ActionResult ListThreads()
         {
             var loggedInUser = ApplicationUserUtils.GetCurrentlyLoggedInUser();
-            var threads = db.Threads
+            var userThreads = db.Threads
                 .Include(t => t.Answers)
                 .Where(x => x.Author.UserName.Equals(loggedInUser.UserName))
                 .OrderByDescending(x => x.CreationDate)
                 .ToList();
-            return View(threads);
+            return View(userThreads);
         }
         public ActionResult ListAnswers()
         {
